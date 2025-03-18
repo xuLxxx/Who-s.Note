@@ -1,0 +1,56 @@
+.header {
+  background-color: var(--background-color);
+  color: var(--color);
+  height: 100%;
+  width: 100%;
+  line-height: normal;
+}
+.header .title {
+  display: flex;
+  font-size: 24px;
+  font-weight: 800;
+  margin-left: 16px;
+  justify-self: center;
+  align-self: center;
+}
+.header .title img {
+  width: 36px;
+  height: 36px;
+  justify-self: center;
+  align-self: center;
+}
+.header .bread {
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.header .collapse {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.button-collapse {
+  justify-self: center;
+  align-self: center;
+  font-weight: 700;
+  background-color: var(--background-color);
+}
+.avatar-col {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+}
+.avatar-container .theme {
+  animation: all 1s linear;
+}
+.avatar-container .rotate {
+  transform: rotate(360deg);
+}

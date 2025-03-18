@@ -1,0 +1,69 @@
+.page-login {
+  height: 100vh;
+  width: 100vw;
+  /* background-color: #333433; */
+  background-image: url("@/assets/background.jpg");
+  background-size: cover;
+  /* 毛玻璃效果 */
+}
+.mask {
+  display: inline-block;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(5px);
+}
+.model-login {
+  display: inline-block;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-color);
+  border-radius: 20px;
+  z-index: 1;
+}
+.title {
+  color: var(--color);
+  font-size: 32px;
+  font-weight: 700;
+}
+.form-login {
+  width: 600px;
+  height: 320px;
+}
+.footer {
+  display: inline-block;
+  position: relative;
+  bottom: 0px;
+  padding: 0px 20px 0px 20px;
+  border-top: 1px solid #cfcfcf5d;
+  width: 80%;
+  height: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color);
+  font-size: 16px;
+  font-weight: 400;
+}
+.foot-bar {
+  width: 100%;
+  height: 100%;
+  color: var(--gary-color);
+}
+.button-login {
+  width: 90px;
+  border-radius: 25px;
+  height: 35px;
+}
+.auto-login {
+  user-select: none;
+  -webkit-user-select: none;
+  /* Chrome, Safari, Opera */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+}

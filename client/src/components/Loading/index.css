@@ -1,0 +1,11 @@
+.back {
+  display: grid;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: var(--background-color);
+  color: var(--color);
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}

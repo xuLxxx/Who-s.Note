@@ -1,0 +1,7 @@
+.anchor-list {
+  max-height: 100px;
+  overflow: auto;
+}
+.anchor-list::-webkit-scrollbar {
+  display: none;
+}

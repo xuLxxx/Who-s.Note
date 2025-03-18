@@ -1,0 +1,15 @@
+# dependencies
+**/node_modules
+
+# static files
+api/uploads
+
+# misc
+**/.DS_Store
+
+# environment config which contains sensitive info
+**/.env
+
+# production
+**/build
+**/npm-debug.log*

@@ -1,0 +1,12 @@
+{
+  "name": "who-s.note",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "api": "cd api && npm run dev",
+    "dev": "npm run client && npm run api"
+  },
+  "author": "HAHA-1314",
+  "license": "MIT",
+  "description": ""
+}
