@@ -88,7 +88,8 @@ export class Service {
     );
     this.instance.interceptors.response.use((res: any) => {
       //如果响应成功(2xx内响应码)
-      const code = res.data.code || 200;
+      // console.log(res);
+      const code = res.data.code || res.code || 200;
       // 获取错误信息
       const msg = res.data.message || "Error";
       // 二进制数据则直接返回

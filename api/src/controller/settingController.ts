@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { Request } from "../express";
+import { settingRepository } from "../repository";
 import { fileRepository } from "../repository";
 import * as jwt from "jsonwebtoken";
 import * as multer from "multer";
@@ -11,7 +12,7 @@ const SignKey = process.env.JWT_SECRET as string;
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, "./uploads");
+    cb(null, "./public");
   },
   filename(req, file, cb) {
     // file.originalname = Buffer.from(file.originalname, "Latin1").toString("utf-8"); //若出现中文乱码
@@ -21,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-export class FileController {
+export class SettingController {
   static async upload(req: Request, res: Response) {
     try {
       const token: string = req.headers["authorization"].split(
@@ -42,6 +43,10 @@ export class FileController {
       res.status(400).send({ message: "上传失败  " + error, code: 400 });
       return;
     }
+  }
+  static async getSetting(req: Request, res: Response) {
+    const result = await settingRepository.getSetting();
+    res.status(200).send(result);
   }
   
 }

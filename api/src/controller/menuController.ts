@@ -17,7 +17,7 @@ export class MenuController {
       const user: any = jwt.verify(token, SignKey);
       result = await menuRepository.getMenu(user.role);
     } catch (error) {
-      res.status(400).send({ message: "获取菜单失败 " + error, code: 400 });
+      res.status(200).send({ message: "获取菜单失败 " + error, code: 401 });
       return;
     }
     res.status(200).send(result);
@@ -30,7 +30,7 @@ export class MenuController {
       const result = await menuRepository.addMenu(data);
       res.status(200).send(result);
     } catch (error) {
-      res.status(400).send({ message: "添加菜单失败 " + error, code: 400 });
+      res.status(200).send({ message: "添加菜单失败 " + error, code: 401 });
     }
   }
 }

@@ -39,7 +39,7 @@ export class UserController {
   }
   static async getUserByToken(req: Request, res: Response) {
     if (!req.headers["authorization"]) {
-      res.status(201).send({ message: "未登录！", code: 400 });
+      res.status(201).send({ message: "未登录！", code: 401 });
       return;
     }
     const token: string = req.headers["authorization"].split(" ")[1] as string;
@@ -49,5 +49,4 @@ export class UserController {
     const result = await userRepository.getUserByToken(token);
     res.status(200).send(result);
   }
-
 }

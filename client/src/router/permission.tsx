@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "@/store";
-
+import * as menuApi from "@/api/system/menu";
+import { useLocation } from "react-router";
 // interface AuthProvider {
 //   isAuthenticated: boolean;
 //   username: string;
@@ -12,11 +13,19 @@ import { Dispatch } from "@/store";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispath = useDispatch<Dispatch>();
-  const isLogin = async () => {
-    const res = await dispath.user.getUserInfo();
-    console.log(res);
-  };
-  isLogin();
+  const location = useLocation();
+  // const isLogin = async () => {
+  //   const res = await dispath.user.getUserInfo();
+  //   console.log(res);
+  // };
+  // isLogin();
+  useEffect(() => {
+    dispath.setting.getMenu().then((res: { data: menuApi.Menu[] }) => {
+      dispath.setting.saveMenu(res.data);
+      dispath.user.getUserInfo();
+    });
+  }, [location.pathname]);
+
   return children;
 }
 

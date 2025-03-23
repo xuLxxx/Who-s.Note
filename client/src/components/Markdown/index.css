@@ -49,11 +49,12 @@ tbody tr:nth-child(even) {
 .anchor {
   display: inline-block;
   position: relative;
+  width: 30vw;
 }
 .markdown {
   display: inline-block;
   position: relative;
-  width: calc(100%);
+  white-space: wrap;
 }
 .flex {
   display: flex;
@@ -66,4 +67,10 @@ tbody tr:nth-child(even) {
 }
 .nav {
   margin-top: 20px;
+}
+.inlineCodeClass {
+  display: inline-block;
+  width: 100%;
+  background: var(--code-background);
+  overflow: auto;
 }

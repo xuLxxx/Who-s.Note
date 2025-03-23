@@ -8,6 +8,7 @@ import Router from "./router";
 import store, { RootState } from "./store";
 // import history from "./browserHistory";
 import App from "./app";
+import zhCN from "antd/locale/zh_CN";  //Vite bug 504 (Outdated Optimize Dep) 解决 删掉node_modules 重新npm i 
 
 import "normalize.css";
 
@@ -15,6 +16,7 @@ function ThemeSelector(): JSX.Element {
   const theme = useSelector((state: RootState) => state.setting.theme);
   return (
     <ConfigProvider
+      locale={zhCN}
       theme={{
         algorithm:
           theme === "dark"
@@ -36,10 +38,10 @@ function ThemeSelector(): JSX.Element {
 // 开发时禁用React.StrictMode，防止重复渲染BUG
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeSelector />
-    </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeSelector />
+      </BrowserRouter>
+    </Provider>
   // </React.StrictMode>
 );

@@ -63,12 +63,13 @@ tbody {
 .anchor {
   display: inline-block;
   position: relative;
+  width: 30vw;
 }
 
 .markdown {
   display: inline-block;
   position: relative;
-  width: calc(100%);
+  white-space: wrap;
 }
 
 .flex {
@@ -84,4 +85,11 @@ tbody {
 
 .nav {
   margin-top: 20px;
+}
+
+.inlineCodeClass {
+  display: inline-block;
+  width: 100%;
+  background: var(--code-background);
+  overflow: auto;
 }

@@ -104,6 +104,9 @@ function LoginContainer(): JSX.Element {
               className="foot-bar">
               {/* <div>忘记密码？</div> */}
               <Button color="default" variant="text" onClick={goRegister}>
+                扫码登录
+              </Button>
+              <Button color="default" variant="text" onClick={goRegister}>
                 注册
               </Button>
             </Flex>

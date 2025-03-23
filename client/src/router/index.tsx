@@ -42,11 +42,9 @@ const [Home, Friend, Personal] = [
 function Router(): JSX.Element {
   const dispath = useDispatch<Dispatch>();
   const location = useLocation();
-  useEffect(() => {
-    dispath.setting.getMenu().then((res: { data: menuApi.Menu[] }) => {
-      dispath.setting.saveMenu(res.data);
-    });
-  }, [location.pathname]);
+  // useEffect(() => {
+    
+  // }, [location.pathname]);
 
   return (
     <Routes>

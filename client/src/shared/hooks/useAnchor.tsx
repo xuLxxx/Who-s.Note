@@ -14,7 +14,7 @@ interface List extends RawList {
   children?: List[];
 }
 
-export default function AnchorNav(): JSX.Element {
+export default function AnchorNav(prop: { markdown: string }): JSX.Element {
   const [anchorList, setAnchorList] = useState<List[]>([]);
 
   const generateAnchorList = useCallback(
@@ -90,7 +90,7 @@ export default function AnchorNav(): JSX.Element {
     //@ts-ignore
     setAnchorList(generateAnchorList(hNodeList));
     generateAnchorList(hNodeList);
-  }, []);
+  }, [prop.markdown]);
 
   return (
     <>
@@ -98,7 +98,7 @@ export default function AnchorNav(): JSX.Element {
         items={anchorList}
         affix={false}
         //@ts-ignore
-        getContainer={() => document.querySelector(".ant-card-body")}
+        getContainer={() => document.querySelector(".md-container")}
         className="anchor-list"
         style={{ maxHeight: 200 }}
       />

@@ -4,6 +4,8 @@ import { DataSource } from "typeorm";
 import { User } from "./entity/User";
 import { Menu } from "./entity/Menu";
 import { File } from "./entity/File";
+import { Markdown } from "./entity/Markdown";
+import { Setting } from "./entity/Setting";
 
 // console.log(process.env.DB_HOST);
 export const AppDataSource = new DataSource({
@@ -15,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: false,
-  entities: [User, Menu, File],
+  entities: [User, Menu, File, Markdown, Setting],
   migrations: [],
   subscribers: [],
 });
