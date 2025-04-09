@@ -1,3 +1,5 @@
+import store from "@/store";
+import { hashObject } from "@/utils/object";
 import server from "@/utils/request";
 
 export type Menu = {
@@ -13,10 +15,18 @@ export type Menu = {
   role: string;
 };
 
-export function getMenu() {
-  return server.requestT<{ data: Menu[] }>({
+export async function getMenu() {
+  const config = {
     method: "get",
     url: "/menu",
-
-  });
+    headers: {
+      lruCache: true,
+    },
+  };
+  const key = hashObject(config);
+  const result = await store.dispatch.user.getCache(key);
+  if (result) {
+    return result;
+  }
+  return server.requestT<{ data: Menu[] }>(config);
 }

@@ -4,6 +4,7 @@ import { message } from "antd";
 import { Dispatch, RootState } from "@/store";
 import { UserInfo } from "@/store/model/index.type";
 import { setToken, removeToken, getToken } from "@/utils/auth";
+import { LRUCache } from "@/utils/LRUCache";
 
 const userState: UserInfo = {
   username: "",
@@ -13,6 +14,8 @@ const userState: UserInfo = {
   iat: 0,
   exp: 0,
 };
+
+const userCache = new LRUCache(5);
 
 export default {
   state: userState,
@@ -60,6 +63,15 @@ export default {
       //   });
       // }
       // return res;
+      try {
+        dispatch({
+          type: "user/removeUserInfo",
+        });
+        window.location.href = "/user/login";
+        return true;
+      } catch {
+        return false;
+      }
     },
     async getUserInfo() {
       const res = await userApi.getUserInfo();
@@ -70,6 +82,13 @@ export default {
         });
       }
       return res;
+    },
+    async getCache(key: any) {
+      const result = await userCache.get(key);
+      return result;
+    },
+    async setCache(payload: { key: any; data: any }) {
+      userCache.set(payload.key, payload.data);
     },
   }),
 };

@@ -10,6 +10,7 @@ import { Request, Response, NextFunction } from "express";
 import fileRouter from "./router/fileRouter";
 import mdRouter from "./router/mdRouter";
 import settingRouter from "./router/settingRouter";
+import * as cors from "cors";
 
 const app = new WebSocketExpress();
 const SignKey = process.env.JWT_SECRET as string;
@@ -19,6 +20,7 @@ AppDataSource.initialize().then(async () => {
   // const userRepository = connection.getRepository(User);
 
   app.use(bodyParser.json());
+  app.use(cors());
   app.use("/", userRouter, fileRouter, mdRouter, settingRouter);
   app.use("/ws", talkRouter);
 

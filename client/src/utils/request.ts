@@ -2,9 +2,11 @@ import axios from "axios";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import { message, Modal } from "antd";
 import { tansParams } from "./tansParams";
+import { hashObject } from "./object";
 import { removeToken } from "./auth";
 import { getToken } from "./auth";
 import history from "@/browserHistory";
+import store from "../store";
 
 // 是否显示重新登录
 export const isRelogin = { show: false };
@@ -88,7 +90,6 @@ export class Service {
     );
     this.instance.interceptors.response.use((res: any) => {
       //如果响应成功(2xx内响应码)
-      // console.log(res);
       const code = res.data.code || res.code || 200;
       // 获取错误信息
       const msg = res.data.message || "Error";
@@ -98,6 +99,11 @@ export class Service {
         res.request.responseType === "arraybuffer"
       ) {
         return res.data;
+      }
+      console.log("LRU-Mode",res.config.method === "get" && !!res.config.headers.lruCache);
+      if (res.config.method === "get" && !!res.config.headers.lruCache) {
+        const key = hashObject(res.config);
+        store.dispatch.user.setCache({ key, data: res.data });
       }
       if (code === 401) {
         // 未登录

@@ -1,3 +1,5 @@
+import store from "@/store";
+import { hashObject } from "@/utils/object";
 import server from "@/utils/request";
 
 export const uploadFile = (data: FormData) => {
@@ -23,23 +25,50 @@ export const saveMarkdown = (data: Object) => {
   });
 };
 
-export const getMarkdownHtml = (url: string) => {
-  return server.requestT<any>({
+export const getMarkdownHtml = async (url: string) => {
+  const config = {
     method: "get",
     url,
-  });
+    headers: {
+      lruCache: true,
+    },
+  };
+  const key = hashObject(config);
+  const result = await store.dispatch.user.getCache(key);
+  if (result) {
+    return result;
+  }
+  return server.requestT<any>(config);
 };
 
-export const getMarkdown = () => {
-  return server.requestT<{ data: any }>({
+export const getMarkdown = async () => {
+  const config = {
     method: "get",
     url: "/markdown",
-  });
+    headers: {
+      lruCache: true,
+    },
+  };
+  const key = hashObject(config);
+  const result = await store.dispatch.user.getCache(key);
+  if (result) {
+    return result;
+  }
+  return server.requestT<{ data: any }>(config);
 };
 
-export const getMarkdownByid = (id: number) => {
-  return server.requestT<{ data: any }>({
+export const getMarkdownByid = async (id: number) => {
+  const config = {
     method: "get",
     url: `/markdown/${id}`,
-  });
+    headers: {
+      lruCache: true,
+    },
+  };
+  const key = hashObject(config);
+  const result = await store.dispatch.user.getCache(key);
+  if (result) {
+    return result;
+  }
+  return server.requestT<{ data: any }>(config);
 };

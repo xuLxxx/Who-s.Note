@@ -29,10 +29,11 @@ const [Login] = [() => import("../pages/Login")].map((item) => {
   });
 });
 
-const [Home, Friend, Personal] = [
+const [Home, Friend, Personal, Todo] = [
   () => import("../pages/Home"),
   () => import("../pages/Friend"),
   () => import("../pages/Personal"),
+  () => import("../pages/Todo"),
 ].map((item) => {
   return loadable(item as any, {
     fallback: <Loading style={fillStyle} />,
@@ -40,12 +41,6 @@ const [Home, Friend, Personal] = [
 });
 
 function Router(): JSX.Element {
-  const dispath = useDispatch<Dispatch>();
-  const location = useLocation();
-  // useEffect(() => {
-    
-  // }, [location.pathname]);
-
   return (
     <Routes>
       <Route
@@ -58,6 +53,7 @@ function Router(): JSX.Element {
         <Route path="/" element={<Navigate to="home" />}></Route>
         <Route path="home" element={<Home />} />
         <Route path="friend" element={<Friend />} />
+        <Route path="todo" element={<Todo />} />
         <Route path="setting/personal" element={<Personal />}></Route>
       </Route>
       <Route

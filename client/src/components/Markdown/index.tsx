@@ -1,10 +1,13 @@
-import React from "react";
+// Npm UI Lib
+import React, { useCallback } from "react";
 import Markdown from "react-markdown";
 import { RootState } from "@/store";
 // Plugins
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+  duotoneDark as dark,
+  duotoneLight as light,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -23,24 +26,29 @@ import { useLocation } from "react-router";
 import { Card, Divider } from "antd";
 import LoadingComponent from "../Loading";
 
-export default function MarkdownPage(): JSX.Element {
+function MarkdownPage(): JSX.Element {
   const [markdown, setMarkdown] = React.useState<string>("");
   const location = useLocation();
   const query: any = useQuery();
-  React.useMemo(() => {
-    setMarkdown("Loading...");
-    api.getMarkdownByid(Number(query.get("id")) as number).then((res) => {
+  const getMarkdown = useCallback(() => {
+    api.getMarkdownByid(Number(query.get("id"))).then((res) => {
       api
         .getMarkdownHtml("/uploads" + res.data.fileUrl.split("/uploads")[1])
-        // .then((resp) => resp.text())
+        //.then((resp) => resp.text())
         .then((txt) => setMarkdown(txt));
     });
+  }, [location.search]);
+
+  React.useMemo(() => {
+    console.log("重新渲染");
+    setMarkdown("Loading...");
+    getMarkdown();
   }, [location.search]);
   let index = 0;
   const codeTheme =
     useSelector((state: RootState) => state.setting.theme) === "dark"
       ? dark
-      : docco;
+      : light;
   const collapse = useSelector((state: RootState) => state.setting.collapse);
 
   return (
@@ -64,87 +72,103 @@ export default function MarkdownPage(): JSX.Element {
         )}
         <div className="markdown">
           <Card className="md-container">
-            <Markdown
-              children={markdown}
-              remarkPlugins={[remarkGfm, remarkMath, remarkGemoji]}
-              rehypePlugins={[rehypeKatex, rehypeRaw]}
-              components={{
-                code(props) {
-                  const { children, className, node, ...rest } = props;
-                  // 匹配指定语言
-                  const match: any = /language-(\w+)/.exec(className || "");
-                  return (
-                    <>
-                      {match ? (
-                        <SyntaxHighlighter
-                          showLineNumbers={true}
-                          language={match && match[1]}
-                          style={codeTheme}>
-                          {String(children).replace(/\n$/, "")}
-                        </SyntaxHighlighter>
-                      ) : (
-                        <code
-                          {...rest}
-                          className={`${className} inlineCodeClass`}>
-                          {children}
-                        </code>
-                      )}
-                    </>
-                  );
-                },
-                h1(props) {
-                  const { children } = props;
-                  return (
-                    <h1 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h1>
-                  );
-                },
-                h2(props) {
-                  const { children } = props;
-                  return (
-                    <h2 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h2>
-                  );
-                },
-                h3(props) {
-                  const { children } = props;
-                  return (
-                    <h3 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h3>
-                  );
-                },
-                h4(props) {
-                  const { children } = props;
-                  return (
-                    <h4 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h4>
-                  );
-                },
-                h5(props) {
-                  const { children } = props;
-                  return (
-                    <h5 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h5>
-                  );
-                },
-                h6(props) {
-                  const { children } = props;
-                  return (
-                    <h6 className="heading" id={"heading-" + ++index}>
-                      {children}
-                    </h6>
-                  );
-                },
-     
-              }}></Markdown>
+            {markdown === "Loading..." ? (
+              <LoadingComponent
+                style={{ width: "100%", height: "80vh" }}></LoadingComponent>
+            ) : (
+              <Markdown
+                children={markdown}
+                remarkPlugins={[remarkGfm, remarkMath, remarkGemoji]}
+                rehypePlugins={[rehypeKatex, rehypeRaw]}
+                components={{
+                  code(props) {
+                    const { children, className, node, ...rest } = props;
+                    // 匹配指定语言
+                    const match: any = /language-(\w+)/.exec(className || "");
+                    return (
+                      <>
+                        {match ? (
+                          <SyntaxHighlighter
+                            showLineNumbers={true}
+                            language={match && match[1]}
+                            style={codeTheme}>
+                            {String(children).replace(/\n$/, "")}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code
+                            {...rest}
+                            className={`${className} inlineCodeClass`}>
+                            {children}
+                          </code>
+                        )}
+                      </>
+                    );
+                  },
+                  h1(props) {
+                    const { children } = props;
+                    return (
+                      <h1 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h1>
+                    );
+                  },
+                  h2(props) {
+                    const { children } = props;
+                    return (
+                      <h2 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h2>
+                    );
+                  },
+                  h3(props) {
+                    const { children } = props;
+                    return (
+                      <h3 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h3>
+                    );
+                  },
+                  h4(props) {
+                    const { children } = props;
+                    return (
+                      <h4 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h4>
+                    );
+                  },
+                  h5(props) {
+                    const { children } = props;
+                    return (
+                      <h5 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h5>
+                    );
+                  },
+                  h6(props) {
+                    const { children } = props;
+                    return (
+                      <h6 className="heading" id={"heading-" + ++index}>
+                        {children}
+                      </h6>
+                    );
+                  },
+                  img(props) {
+                    return (
+                      <img
+                        className="image"
+                        alt={"渲染错误，请上传相关图片至服务器"}
+                        src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${
+                          props.src
+                        }`}></img>
+                    );
+                  },
+                }}></Markdown>
+            )}
           </Card>
         </div>
       </div>
     </>
   );
 }
+
+export default React.memo(MarkdownPage);

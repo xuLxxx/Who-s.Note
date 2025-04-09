@@ -6,11 +6,11 @@
 
 # What is Who's note
 
-`Who's note`是个人学习项目，项目结构模仿 Ruoyi 等后台管理系统。同时具备**高度集成组件**，封装实用函数的特点。基于 `React Router` 实现**动态路由**`，前置路由守卫，Redux` 实现状态管理。
+`Who's note`是个人学习项目。具备**高度集成组件**，封装实用函数的特点。基于 `React Router` 实现**动态路由**`，前置路由守卫，Redux` 实现状态管理。
 `Who's note` is a note like website that allows users to create and share their own note posts. It is built using React, TypeScript, and Vite.
-`Who's note`是一个**类博客网站**，**目标实现用户上传 markdown、评论和实时聊天。前端使用 React React Router Redux,UI 使用 Antd，并大多数组件放在 components 中。MarkDown 使用 React-Markdown 进行解析。**
+`Who's note`是一个**个人笔记网站**，**目标实现用户上传 markdown 云存储、评论和实时聊天。前端使用 React Router,Redux, Antd，大多数组件封装在 components 中。React-Markdown 解析 markdown。**
 
-# 如何初始化 Setup 
+# 如何初始化 Setup
 
 To run the application, follow these steps:
 
@@ -32,20 +32,25 @@ DB_DATABASE=....
 JWT_SECRET=....
 ```
 
-# 特点
+# 特点 Features
 
-- **all ts & tsx** including api & client
-- 大部分组件都存放于 `components` 包中（动态菜单,Layout,自定义 Icon 组件,Markdown 组件）
+- **all ts & tsx** 全部由 Ts,Tsx 编写。
+- 采用现代 React 编写，仅包含使用 Hooks 的函数式组件
+- 多个自定义组件存放于 `components` 包中（动态菜单,Layout,自定义 Icon 组件,Markdown 组件）
 - **主题切换** less 实现
-- api 由 express 提供并使用 typeOrm 连接 PostgreSQL 数据库
-- 学习了漂亮的 Express 项目结构
-- Custom Node,Vite setup without create-react-app , typeorm init 从零开始使用 Node Vite 构建项目而不是使用 create-react-app，快速的 typeorm 初始化项目
+- api 由 express 提供并使用 typeorm 连接 PostgreSQL 数据库
+- 经实践验证、可扩展且易于理解的 Express 项目结构
+- 使用经典的 Node & Vite 尽可能地构建轻量的项目，使用自定义配置 而不是使用 create-react-app，typeorm init。Custom Node & Vite setup simply without create-react-app,typeorm init.
+- 使用 Redux @rematch/core 管理状态，提供了一个@rematch/core 的完整方案。
+- typescript 封装 Axios,使用 LRU 缓存算法，减少重复的 Get 请求。
+- multer 实现 Express 通用上传文件功能。
+- 健全的 markdown 解析，支持 h1-h6,图片,链接,代码块,表格,引用,分割线,列表等。
 
-# 缺点
+# 评述 Observation
 
-- It's not a modern,real world react demo.I Just want to learn doing with react.这不是一个现代的、生产可用的 React 项目,这只是我个人的第一个 React 学习项目。
-- 因为它缺少完美的 Hooks。
-- 部分功能的实现其实并不需要 Redux,我只是想练习一下 Redux。完全可以通过 Simple local React state management 实现
+- 这个项目的想法是提供一个学习路线，记录着我个人的学习，是否喜欢这个项目由您个人决定。
+- 这个 React 项目结构并非完全适用生产环境。我只是想练习一下 React 项目的搭建和开发。
+- 其实并不需要 Redux,我只是想练习一下 Redux。完全可以通过 Simple local React state management 实现
 
 # 技术栈
 
@@ -62,17 +67,17 @@ JWT_SECRET=....
 
 # 如何使用
 
-管理员账号: admin 123546
+管理员账号自行修改数据库的 `role` 字段为 `admin`
 用户自行注册即可
 
-# 完善 Todo
+# 展望
 
-- 通过限制用户功能完善 RBAC 情景
-- 通过修改用户信息完善 CRUD 情景
+- 通过实现限制用户功能 完善 RBAC 情景
+- 通过修改用户信息 完善 CRUD 情景
 - 完善基于 Websocket 的实时聊天功能
 - 优化 markdown 内的图片上传
 - Docker 部署到服务器
 
-# Repo public
+# Repo Public
 
 个人学习。不接受 PR，你有更好的想法请随意 Fork 并开发你自己的版本。Private Learning demo.Will not accept PRs. Feel free to fork and develop your own version if you have better ideas.

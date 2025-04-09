@@ -8,5 +8,11 @@
   },
   "author": "HAHA-1314",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "md5": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/md5": "^2.3.5"
+  }
 }

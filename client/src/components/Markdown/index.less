@@ -70,6 +70,12 @@ tbody {
   display: inline-block;
   position: relative;
   white-space: wrap;
+  width: calc(60vw - 20px);
+}
+
+.md-container {
+  width: 100%;
+  transition: all 0.3s;
 }
 
 .flex {
@@ -89,7 +95,12 @@ tbody {
 
 .inlineCodeClass {
   display: inline-block;
-  width: 100%;
+  vertical-align: top;
+  padding: 0 3px 0 3px;
+  border-radius: 2px;
+  // width: 100%;
   background: var(--code-background);
   overflow: auto;
+  max-width: 100%;
+  // text-overflow: ellipsis;
 }
