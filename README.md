@@ -1,12 +1,10 @@
 # [Who's note](https://github.com/) &middot; ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## React + TypeScript + Vite
-
-## Express + TypeScript + typeOrm + PostgreSQL
+## React + React Native + Express + TypeScript + TypeORM
 
 # What is Who's note
 
-`Who's note`是个人学习项目。具备**高度集成组件**，封装实用函数的特点。基于 `React Router` 实现**动态路由**`，前置路由守卫，Redux` 实现状态管理。
+`Who's note`是个人学习项目。具备**高度集成组件**，封装实用函数的特点。基于 `React Router` 实现**动态路由**，前置路由守卫，Redux 实现状态管理。
 `Who's note` is a note like website that allows users to create and share their own note posts. It is built using React, TypeScript, and Vite.
 `Who's note`是一个**个人笔记网站**，**目标实现用户上传 markdown 云存储、评论和实时聊天。前端使用 React Router,Redux, Antd，大多数组件封装在 components 中。React-Markdown 解析 markdown。**
 
@@ -41,34 +39,28 @@ JWT_SECRET=....
 - api 由 express 提供并使用 typeorm 连接 PostgreSQL 数据库
 - 经实践验证、可扩展且易于理解的 Express 项目结构
 - 使用经典的 Node & Vite 尽可能地构建轻量的项目，使用自定义配置 而不是使用 create-react-app，typeorm init。Custom Node & Vite setup simply without create-react-app,typeorm init.
-- 使用 Redux @rematch/core 管理状态，提供了一个@rematch/core 的完整方案。
+- React 使用 Redux @rematch/core 管理状态，RN 使用 Redux @toolkit 提供了一个@rematch/core 的完整方案。
 - typescript 封装 Axios,使用 LRU 缓存算法，减少重复的 Get 请求。
 - multer 实现 Express 通用上传文件功能。
 - 健全的 markdown 解析，支持 h1-h6,图片,链接,代码块,表格,引用,分割线,列表等。
+- RN 使用官方推荐的 expo 搭建。
 
 # 评述 Observation
 
 - 这个项目的想法是提供一个学习路线，记录着我个人的学习，是否喜欢这个项目由您个人决定。
 - 这个 React 项目结构并非完全适用生产环境。我只是想练习一下 React 项目的搭建和开发。
 - 其实并不需要 Redux,我只是想练习一下 Redux。完全可以通过 Simple local React state management 实现
+- 一个尽可能完整的 React Native Expo App
 
-# 技术栈
+# 技术选型 Tech Stack
 
-- React
+- React Axios Antd React Router Vite
+- React Native Expo
 - TypeScript
-- Vite
-- WebSocket
-- React Router
-- Redux @rematch/core
-- Axios
-- Antd
-- React-Markdown
-- less
-
-# 如何使用
-
-管理员账号自行修改数据库的 `role` 字段为 `admin`
-用户自行注册即可
+- Express TypeOrm PostgresSQL WebSocket
+- Redux @rematch/core in React
+- Redux @toolkit in React Native
+- React-Markdown & React-Native-Marked
 
 # 展望
 
@@ -77,6 +69,7 @@ JWT_SECRET=....
 - 完善基于 Websocket 的实时聊天功能
 - 优化 markdown 内的图片上传
 - Docker 部署到服务器
+- React-Native Markdown 无法实现生成目录。
 
 # Repo Public
 

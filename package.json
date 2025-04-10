@@ -4,15 +4,13 @@
   "scripts": {
     "client": "cd client && npm run dev",
     "api": "cd api && npm run dev",
-    "dev": "npm run client && npm run api"
+    "app": "cd app && npx expo start",
+    "dev": "concurrently \"npm run client\" \"npm run api\""
   },
   "author": "HAHA-1314",
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "md5": "^2.3.0"
-  },
-  "devDependencies": {
-    "@types/md5": "^2.3.5"
+    "concurrently": "^9.1.2"
   }
 }
