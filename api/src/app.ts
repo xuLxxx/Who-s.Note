@@ -11,6 +11,7 @@ import fileRouter from "./router/fileRouter";
 import mdRouter from "./router/mdRouter";
 import settingRouter from "./router/settingRouter";
 import * as cors from "cors";
+import todoRouter from "./router/todoRouter";
 
 const app = new WebSocketExpress();
 const SignKey = process.env.JWT_SECRET as string;
@@ -23,6 +24,7 @@ AppDataSource.initialize().then(async () => {
   app.use(cors());
   app.use("/", userRouter, fileRouter, mdRouter, settingRouter);
   app.use("/ws", talkRouter);
+  app.use("/todo", todoRouter);
 
   app.use(
     expressjwt({ secret: SignKey, algorithms: ["HS256"] }).unless({
@@ -52,7 +54,7 @@ AppDataSource.initialize().then(async () => {
     res.status(err.status || 500);
     res.render("error");
   });
-  app.listen(3000, () => {
-    console.log("服务器启动成功");
+  app.listen(process.env.PORT, () => {
+    console.log("服务器启动成功", process.env.PORT);
   });
 });

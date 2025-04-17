@@ -5,6 +5,7 @@ import { Dispatch, RootState } from "@/store";
 import { UserInfo } from "@/store/model/index.type";
 import { setToken, removeToken, getToken } from "@/utils/auth";
 import { LRUCache } from "@/utils/LRUCache";
+import { FieldType } from "@/pages/Login";
 
 const userState: UserInfo = {
   username: "",
@@ -35,7 +36,7 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     // 登录操作
-    async login(params: { username: string; password: string }) {
+    async login(params: FieldType) {
       const res = await api.login(params);
       const { data } = res;
       if (res.code === 200) {

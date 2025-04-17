@@ -76,7 +76,7 @@ export default function FieldCom(): JSX.Element {
                 className="box"
                 key={item.id}
                 onClick={openMarkdown(item.id)}>
-                <img src={item.pic} alt=""></img>
+                <img src={item.pic} alt="笔记封面"></img>
                 {/* <div className="title">{item.title}</div> */}
               </div>
             );

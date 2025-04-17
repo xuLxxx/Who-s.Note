@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { File } from "../entity/File";
 import { User } from "../entity/User";
+import "dotenv/config";
 
 export class FileService {
   constructor(private fileRepository: Repository<File>) {}
@@ -11,7 +12,7 @@ export class FileService {
       file.userId = user.id;
       file.fileName = data.originalname;
       file.fileType = data.mimetype;
-      file.fileUrl = `http://localhost:3000/uploads/${data.filename}`;
+      file.fileUrl = `http://localhost:${process.env.PORT}/uploads/${data.filename}`;
       const item = this.fileRepository.create(file);
       await this.fileRepository.save(item);
       return {

@@ -19,4 +19,18 @@ body {
   padding: 0;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+  background-color: var(--code-background);
+}
+::-webkit-scrollbar-track {
+  background-color: var(--code-background);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color);
+  border-radius: 5px;
+}
 /* 关于兼容性的话，可以试试使用postcss-custom-properties和css-vars-ponyfill两款插件，具体没尝试过 */

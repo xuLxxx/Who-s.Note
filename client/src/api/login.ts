@@ -1,11 +1,6 @@
 import server from "@/utils/request";
 import type { UserInfo } from "./user/index.type";
-
-export type LoginForm = {
-  username: string;
-  password: string;
-  remember?: boolean;
-};
+import { FieldType } from "@/pages/Login";
 
 /**
  * 登录
@@ -13,7 +8,7 @@ export type LoginForm = {
  * @returns res
  *
  */
-export const login = (data: LoginForm) => {
+export const login = (data: FieldType) => {
   return server.requestT<{ data: UserInfo }>({
     url: "/login",
     method: "post",

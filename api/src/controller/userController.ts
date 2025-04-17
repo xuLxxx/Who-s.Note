@@ -29,7 +29,7 @@ export class UserController {
     const result = await userRepository.loginUser(data);
     if (result.code === 200) {
       res.cookie("token", result.data.token, {
-        maxAge: 1000 * 60 * 60,
+        maxAge: 1000 * 60 * 60 * 24 * 2,
         httpOnly: false,
       });
       res.status(200).send(result);

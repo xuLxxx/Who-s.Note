@@ -7,15 +7,13 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 
-const theme = createTheme({
-  mode: "dark",
-  lightColors: {
-    primary: "#e7e7e8",
-  },
-  darkColors: {
-    primary: "#080808",
-  },
-});
+declare module "@rneui/themed" {
+  export interface Colors {
+    fontColor: string;
+    accent: string;
+    surface: string;
+  }
+}
 
 import { store } from "@/store";
 
@@ -23,14 +21,29 @@ const persistor = persistStore(store);
 
 export default function RootLayout() {
   const colorTheme = useColorScheme();
+  console.log(colorTheme);
+
+  const theme = createTheme({
+    lightColors: {
+      background: "#FFFFFF",
+      fontColor: "#000000",
+    },
+    darkColors: {
+      background: "#303133",
+      fontColor: "#FFFFFF",
+    },
+    components: {
+      Button: {
+        raised: true,
+      },
+    },
+    mode: colorTheme === "light" ? "light" : "dark",
+  });
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
-          <SafeAreaProvider
-            style={{
-              backgroundColor: colorTheme === "dark" ? "#fff" : "#000",
-            }}>
+          <SafeAreaProvider>
             <Stack>
               <Stack.Screen
                 name="(tabs)"
@@ -39,10 +52,7 @@ export default function RootLayout() {
                 }}
                 getId={({ params }: Record<string, any>) => params.id}
               />
-              <Stack.Screen
-                name="(user)/login"
-                options={{ title: "登陆" }}
-              />
+              <Stack.Screen name="(user)/login" options={{ title: "登陆" }} />
             </Stack>
             <Toast />
           </SafeAreaProvider>

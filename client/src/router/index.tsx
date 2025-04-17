@@ -51,9 +51,9 @@ function Router(): JSX.Element {
           </AuthProvider>
         }>
         <Route path="/" element={<Navigate to="home" />}></Route>
+        <Route path="todo" element={<Todo />} />
         <Route path="home" element={<Home />} />
         <Route path="friend" element={<Friend />} />
-        <Route path="todo" element={<Todo />} />
         <Route path="setting/personal" element={<Personal />}></Route>
       </Route>
       <Route
@@ -63,7 +63,7 @@ function Router(): JSX.Element {
             <Login />
           </AuthNoLogin>
         }>
-        <Route path="/user" element={<Navigate to="login" />}></Route>
+        {/* <Route path="/user" element={<Navigate to="login" />}></Route> */}
         <Route path="login" element={<Login />} />
         <Route path="*" element={<Navigate to="login" />} />
       </Route>

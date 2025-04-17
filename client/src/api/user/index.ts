@@ -9,7 +9,7 @@ export const getUserInfo = async () => {
     url: "/user",
     method: "get",
     headers: {
-      lruCache: true,
+      lruCache: false,
     },
   };
   const key = hashObject(config);

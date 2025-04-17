@@ -15,6 +15,6 @@ export const hashObject = (config: Record<string, any>) => {
     params: config.params ? sortObject(config.params) : null,
     data: config.data ? sortObject(config.data) : null,
   };
-//   console.log("hashObject", target);
+  //   console.log("hashObject", target);
   return md5(JSON.stringify(target));
 };

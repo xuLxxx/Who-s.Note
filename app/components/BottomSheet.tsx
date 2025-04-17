@@ -23,7 +23,7 @@ export function BottomSheetCom(prop: Props): JSX.Element {
       <BottomSheet
         modalProps={{}}
         isVisible={isVisible}
-        onBackdropPress={() => onClose}>
+        onBackdropPress={onClose}>
         {list.map((l: ListItemProps, i: number) => (
           <ListItem
             key={i}

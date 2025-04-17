@@ -7,7 +7,7 @@ import { replace, useNavigate } from "react-router";
 
 import "./index.less";
 
-type FieldType = {
+export type FieldType = {
   username?: string;
   password?: string;
   remember?: boolean;
@@ -18,7 +18,7 @@ function LoginContainer(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<Dispatch>();
   const [loading, setLoading] = React.useState(false);
-  const onFinish: FormProps<FieldType>["onFinish"] = (values: any) => {
+  const onFinish: FormProps<FieldType>["onFinish"] = (values: FieldType) => {
     setLoading(true);
     dispatch.user
       .login(values)

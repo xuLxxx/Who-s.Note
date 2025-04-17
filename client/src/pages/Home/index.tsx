@@ -12,11 +12,9 @@ function HomeContainer(): JSX.Element {
   return (
     <>
       <div className="page-home">
-        {query.size ? (
-          <MarkdownPage></MarkdownPage>
-        ) : (
-          <div>欢迎来到Who's Note笔记系统</div>
-        )}
+        {/* {query.size ? <MarkdownPage /> : ""} */}
+        {/* <MarkdownPage /> */}
+        {query.size ? <MarkdownPage /> : <div>欢迎来到Who's Note笔记系统</div>}
       </div>
     </>
   );

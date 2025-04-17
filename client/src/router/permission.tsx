@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Dispatch } from "@/store";
+import { Dispatch, RootState } from "@/store";
 import * as menuApi from "@/api/system/menu";
-import { useLocation } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 // interface AuthProvider {
 //   isAuthenticated: boolean;
 //   username: string;
@@ -30,16 +30,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function AuthNoLogin({ children }: { children: React.ReactNode }) {
-  // const dispath = useDispatch<Dispatch>();
-  // const userInfo = useSelector((state: any) => state.user.userInfo);
-  // console.log(userInfo);
-  // useEffect(() => {
-  //   if (!userInfo) {
-  //     dispath.user.getUserInfo().then((res: any) => {
-  //       console.log(res);
-  //     });
-  //   }
-  // }, []);
+  const userInfo = useSelector((state: RootState) => state.user);
+  if (userInfo.token) {
+    return <Navigate to="/home" />;
+  }
   return children;
 }
 

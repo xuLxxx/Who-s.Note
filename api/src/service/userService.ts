@@ -15,8 +15,8 @@ export class UserService {
     }
     const user = this.userRepository.create(newuser);
     await this.userRepository.save(user);
-    console.log(user);
-    const token = jwt.sign({ user }, SignKey, { expiresIn: "1h" });
+    // console.log(user);
+    const token = jwt.sign({ user }, SignKey, { expiresIn: "48h" });
     return {
       message: "注册成功",
       code: 200,
@@ -37,7 +37,7 @@ export class UserService {
       const token = jwt.sign(
         { id: thisOne.id, username: thisOne.username, role: thisOne.role },
         SignKey,
-        { expiresIn: "1h" }
+        { expiresIn: "48h" }
       );
       return {
         message: "登录成功",
@@ -55,7 +55,8 @@ export class UserService {
   }
   async getUserByToken(token: string) {
     try {
-      const user = jwt.verify(token, "haha");
+      const user = jwt.verify(token, SignKey);
+      // console.log("Get User");
       return {
         code: 200,
         message: "获取用户信息成功",

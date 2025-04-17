@@ -10,7 +10,11 @@ import MenuService from "../service/menuService"; // export 与 export default �
 import { FileService } from "../service/fileService";
 import { MdService } from "../service/mdService";
 import { SettingService } from "../service/settingService";
+import TodoService from "../service/todoService";
+import { Todo, TodoContainer } from "../entity/Todo";
+import { Event } from "../entity/Event";
 
+// 数据源
 export const userRepository = new UserService(
   AppDataSource.getRepository(User)
 );
@@ -30,3 +34,17 @@ export const mdRepository = new MdService(
 export const settingRepository = new SettingService(
   AppDataSource.getRepository(Setting)
 );
+
+export const todoRepository = new TodoService(
+  AppDataSource.getRepository(TodoContainer),
+  AppDataSource.getRepository(Event),
+  AppDataSource.getRepository(Todo)
+);
+
+// export const todoRepository = new TodoService(
+//   AppDataSource.getRepository(Todo)
+// );
+
+// export const eventRepository = new EventService(
+//   AppDataSource.getRepository(Event)
+// );
