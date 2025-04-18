@@ -4,31 +4,37 @@
   --background-color: #fff;
   --gray-color: #202020;
   --code-background: #f5f5f5;
+  --track-background: #e0e0e0;
 }
 :root.dark {
   --color: #fff;
   --background-color: #000;
   --gray-color: #fffefe;
   --code-background: #575757;
+  --track-background: #3e3e3e;
 }
 
 body {
   display: inline-block;
   width: 100%;
   min-height: 100vh;
+
   padding: 0;
   margin: 0;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
-  height: 10px;
-  background-color: var(--code-background);
+  height: 6px;
+  border-radius: 10px;
+  background-color: var(--track-background);
 }
+
 ::-webkit-scrollbar-track {
-  background-color: var(--code-background);
+  background-color: var(--track-background);
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: var(--color);
   border-radius: 5px;

@@ -14,11 +14,12 @@ import {
   EventChangeArg,
   EventClickArg,
   EventContentArg,
+  EventInput,
   EventRemoveArg,
   formatDate,
 } from "@fullcalendar/core/index.js";
 
-import { INITIAL_EVENTS, MODAL_EVENTS } from "./constant";
+import { MODAL_EVENTS } from "./constant";
 import {
   Button,
   Card,
@@ -37,8 +38,6 @@ import store, { RootState } from "@/store";
 import { useSelector } from "react-redux";
 //types
 import type { _EventApi } from "./index.d";
-import { constants } from "buffer";
-import { useForm } from "antd/es/form/Form";
 // import { RangeValueType } from "antd/es/date-picker/generatePicker";
 const { RangePicker } = DatePicker;
 
@@ -53,9 +52,8 @@ type FieldType = {
 
 function CalendarComponent(): JSX.Element {
   // CALENDAR
-  const [weekendsVisible, setWeekendsVisible] = React.useState<boolean>(true);
   const { collapse } = useSelector((state: RootState) => state.setting);
-  const [events, setEvents] = React.useState(INITIAL_EVENTS);
+  const [events, setEvents] = React.useState<EventInput>();
   const calendarRef = React.useRef<FullCalendar>(null);
   const [currentEvents, setCurrentEvents] = React.useState<_EventApi[]>();
 
@@ -98,9 +96,6 @@ function CalendarComponent(): JSX.Element {
     // }
   };
 
-  function handleWeekendsToggle() {
-    setWeekendsVisible(!weekendsVisible);
-  }
   function handleEventClick(clickInfo: EventClickArg) {
     // 点击直接删除事件
     // if (confirm(`你确定要删除'${clickInfo.event.title}'的事件吗？`)) {
@@ -152,7 +147,7 @@ function CalendarComponent(): JSX.Element {
   };
   useEffect(() => {
     console.log(currentEvents);
-  }, [currentEvents]);
+  }, []);
   return (
     <>
       <div
@@ -169,7 +164,7 @@ function CalendarComponent(): JSX.Element {
             ref={calendarRef}
             plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
             initialView="dayGridMonth"
-            weekends={weekendsVisible}
+            weekends={true}
             editable={true}
             selectable={true}
             select={handleDateSelected}
@@ -181,7 +176,7 @@ function CalendarComponent(): JSX.Element {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            initialEvents={INITIAL_EVENTS}
+            initialEvents={events}
             eventContent={renderEventContent}
             eventClick={handleEventClick}
             eventsSet={handleEvents} // called after events are initialized/added/changed/removed
@@ -421,17 +416,6 @@ function AddEvents({
     console.log(name, value);
   };
   const addEvent = (values: any) => {
-    console.log("addEvent", {
-      key: ~~(Math.random() * 100),
-      title: values.title,
-      start: start,
-      end: end,
-      allDay: event?.allDay,
-      ...style,
-      extendedProps: {
-        reStyle: reStyle,
-      },
-    });
     if (!values.title) return;
     event?.view.calendar.addEvent({
       id: (~~(Math.random() * 100)).toString(),

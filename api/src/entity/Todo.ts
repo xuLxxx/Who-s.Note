@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  JoinColumn,
+  BaseEntity,
 } from "typeorm";
 import { Event } from "./Event";
 // /实体（Entities）：这些是数据库表的映射，它们定义了表的结构和关系。
@@ -16,17 +18,17 @@ export class TodoContainer {
   @Column()
   userId: number;
 
-  //   @OneToMany(() => Event, (event) => event.todoContainer)
-  //   eventList: Event[];
+  @OneToMany(() => Event, (event) => event.todoContainer)
+  eventList: Event[];
 
-  //   @OneToMany(() => Todo, (todo) => todo.userId)
-  //   todoList: Todo[];
+  @OneToMany(() => Todo, (todo) => todo.todoContainer)
+  todoList: Todo[];
 
-  @Column()
-  eventList: string;
+  //   @Column()
+  //   eventList: string;
 
-  @Column()
-  todoList: string;
+  //   @Column()
+  //   todoList: string;
 }
 
 @Entity()
@@ -38,6 +40,9 @@ export class Todo {
   title: string;
 
   @Column()
+  userId: number;
+
+  @Column()
   content: string;
 
   @Column()
@@ -47,5 +52,6 @@ export class Todo {
   sorts: number;
 
   @ManyToOne(() => TodoContainer, (userId) => userId.todoList)
-  userId: TodoContainer;
+  @JoinColumn({ name: "userId" })
+  todoContainer: TodoContainer;
 }

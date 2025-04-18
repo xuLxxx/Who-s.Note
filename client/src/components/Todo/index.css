@@ -7,6 +7,13 @@
   margin-top: 10px;
   border: 1px solid var(--color);
   box-shadow: 1px 1px 2px 0px var(--color);
+  transition: all 0.3s ease-in-out;
+}
+.moving {
+  opacity: 0.4;
+  border: 1px dashed #ccc;
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
 }
 .todo-title {
   display: flex;
@@ -17,6 +24,6 @@
   font-weight: 800;
 }
 .todo-card-container {
-  border: 1px solid var(--color);
   border-radius: 10px;
+  padding-bottom: 60px;
 }
