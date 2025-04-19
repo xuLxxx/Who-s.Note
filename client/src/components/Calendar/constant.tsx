@@ -1,3 +1,5 @@
+import { Event } from "@/store/model/index.type";
+
 interface ModalProps {
   title: string;
 }

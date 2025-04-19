@@ -27,15 +27,16 @@ export type ReduxCache = {
 };
 
 export interface Event {
-  id: number;
+  id?: number;
   title: string;
   start: string;
   end: string;
-  allDays: boolean;
+  allDay: boolean;
   textColor: string;
   backgroundColor: string;
   borderColor: string;
   extendedProps: {
+    [key: string]: any;
     reStyle: boolean;
   };
 }

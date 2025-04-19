@@ -1,4 +1,4 @@
-import type { Event } from "./index.type";
+import type { Event } from "@/store/model/index.type";
 import { hashObject } from "@/utils/object";
 import server from "@/utils/request";
 import store from "@/store";
@@ -16,13 +16,30 @@ export const getEvents = async () => {
 
 //添加事件
 
-export const updateEvents = async (data: Event[]) => {
+export const addEvents = async (data: Event) => {
   const config = {
-    url: "/todo/updateEvents",
+    url: "/todo/addEvents",
+    method: "post",
+    data,
+  };
+  return server.requestT<{ data: Event }>(config);
+};
+
+export const updateEvents = async (id: string, data: Event) => {
+  const config = {
+    url: `/todo/${id}/updateEvents`,
     method: "put",
     data,
   };
-  return server.requestT<{ data: Event[] }>(config);
+  return server.requestT<{ data: Event }>(config);
+};
+
+export const deleteEvents = async (id: string) => {
+  const config = {
+    url: `/todo/${id}/deleteEvents`,
+    method: "delete",
+  };
+  return server.requestT<{ data: Event }>(config);
 };
 
 //获取待办

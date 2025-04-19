@@ -14,7 +14,7 @@ export const verifyToken = (req: Request) => {
   try {
     const token: string = req.headers.authorization.split(" ")[1] as string;
     if (!token) throw new Error("token过期");
-    const user = jwt.verify(token, SignKey);
+    const user = jwt.verify(token, SignKey) as User;
     return user;
   } catch (error) {
     throw new Error("token过期");

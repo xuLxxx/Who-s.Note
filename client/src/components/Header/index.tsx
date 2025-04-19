@@ -29,6 +29,9 @@ export default function HeaderCom(): JSX.Element {
     {
       key: "1",
       label: "退出登录",
+      onClick: () => {
+        dispath.user.logout();
+      },
     },
   ];
   return (

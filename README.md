@@ -39,7 +39,7 @@ JWT_SECRET=....
 - 经实践验证、可扩展且易于理解的 Express 项目结构
 - 使用经典的 Node & Vite 尽可能地构建轻量的项目，使用自定义配置 而不是使用 create-react-app，typeorm init。Custom Node & Vite setup simply without create-react-app,typeorm init.
 - React 使用 Redux @rematch/core 管理状态，RN 使用 Redux @toolkit 分别提供了一个完整的学习 Redux 样例。
-- 封装 Axios,选择性使用 LRU 缓存算法，减少重复的 Get 请求。
+- 封装 Axios,选择性使用 LRU 缓存算法来减少重复的 Get 请求。
 - multer 实现 Express 通用上传文件功能。
 - 健全的 markdown 解析，支持 h1-h6,图片,链接,代码块,表格,引用,分割线,列表等。
 - React Native 使用官方推荐的 expo 框架搭建。
@@ -48,7 +48,8 @@ JWT_SECRET=....
 
 - 这个项目的想法是提供一个学习路线，记录着我个人的学习，这个项目并不能媲美任何其他项目。
 - 其实并不需要 Redux,我只是想练习一下 Redux。完全可以通过 Simple local React state management 实现
-- 一个简陋但尽可能完整的 React Native
+- 大多数的功能实现并不适合生产环境
+- 一个简单但尽可能完整的 React Native
 
 # 技术选型 Tech Stack
 

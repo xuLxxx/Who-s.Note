@@ -7,6 +7,7 @@ import { removeToken } from "./auth";
 import { getToken } from "./auth";
 import history from "@/browserHistory";
 import store from "../store";
+import { error } from "console";
 
 // 是否显示重新登录
 export const isRelogin = { show: false };
@@ -23,8 +24,7 @@ type ResponseData<T = unknown> = {
 };
 
 type RequsetObj = {
-  url: string;
-  data: string;
+  hashObject: string;
   time: number;
 };
 
@@ -54,11 +54,7 @@ export class Service {
         }
         if (config.method === "post" || config.method === "put") {
           const requestObj: RequsetObj = {
-            url: config.url,
-            data:
-              typeof config.data === "object"
-                ? JSON.stringify(config.data)
-                : config.data,
+            hashObject: hashObject(config),
             time: new Date().getTime(),
           };
           const sessionObj = JSON.parse(
@@ -68,16 +64,15 @@ export class Service {
           if (!sessionObj) {
             sessionStorage.setItem("sessionObj", JSON.stringify(requestObj));
           } else {
-            const s_url = sessionObj.url; // 请求地址
-            const s_data = sessionObj.data; // 请求数据
+            const s_hashObject = sessionObj.hashObject; // 请求对象
             const s_time = sessionObj.time; // 请求时间
             const interval = 800; // 间隔时间(ms)，小于此时间视为重复提交
             sessionStorage.setItem("sessionObj", JSON.stringify(requestObj));
             if (
-              (!(s_data && requestObj.data) || s_data === requestObj.data) &&
-              s_url === requestObj.url &&
+              s_hashObject === hashObject(config) &&
               new Date().getTime() - s_time < interval
             ) {
+              message.error({ content: "请勿频繁提交！" });
               return Promise.reject(new Error("请勿频繁提交！"));
             }
           }
@@ -100,7 +95,10 @@ export class Service {
       ) {
         return res.data;
       }
-      console.log("LRU-Mode",res.config.method === "get" && !!res.config.headers.lruCache);
+      console.log(
+        "LRU-Mode",
+        res.config.method === "get" && !!res.config.headers.lruCache
+      );
       if (res.config.method === "get" && !!res.config.headers.lruCache) {
         const key = hashObject(res.config);
         store.dispatch.user.setCache({ key, data: res.data });

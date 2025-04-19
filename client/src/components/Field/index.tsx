@@ -86,6 +86,7 @@ export default function FieldCom(): JSX.Element {
             shape="circle"
             onClick={openModal}
             size="large"
+            style={{ marginLeft: fileList.length ? 0 : "50%" }}
             icon={<PlusCircleFilled />}></Button>
         </div>
       </div>

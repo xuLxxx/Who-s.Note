@@ -23,12 +23,6 @@ export class TodoContainer {
 
   @OneToMany(() => Todo, (todo) => todo.todoContainer)
   todoList: Todo[];
-
-  //   @Column()
-  //   eventList: string;
-
-  //   @Column()
-  //   todoList: string;
 }
 
 @Entity()

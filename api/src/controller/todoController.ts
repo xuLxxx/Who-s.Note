@@ -15,21 +15,58 @@ export class TodoController {
     const token: string = req.headers["authorization"].split(" ")[1] as string;
     try {
       const user: any = jwt.verify(token, SignKey);
+      if (!user) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
       result = await todoRepository.getEvents(user.id);
     } catch (error) {
-      res.status(200).send({ message: "获取事件失败 " + error, code: 401 });
+      res.status(200).send({ message: "获取事件失败 " + error, code: 500 });
       return;
     }
     res.status(200).send(result);
   }
   static async updateEvents(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req) as User;
-      const data = req.body.eventList;
+      const user = verifyToken(req);
+      if (!user) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const id = +req.params.id;
+      const data = req.body;
       const result = await todoRepository.updateEvents(id, data);
       res.status(200).send(result);
     } catch (error) {
-      res.status(200).send({ message: "添加事件失败 " + error, code: 401 });
+      res.status(200).send({ message: "更新事件失败 " + error, code: 500 });
+    }
+  }
+  static async deleteEvents(req: Request, res: Response) {
+    try {
+      const user = verifyToken(req);
+      if (!user) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const id = +req.params.id;
+      const result = await todoRepository.deleteEvents(id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "删除事件失败 " + error, code: 500 });
+    }
+  }
+  static async addEvents(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const data = req.body;
+      const result = await todoRepository.addEvents(id, data);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "添加事件失败 " + error, code: 500 });
     }
   }
 }

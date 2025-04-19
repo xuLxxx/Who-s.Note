@@ -6,6 +6,7 @@ import { Dispatch } from "@/store";
 import { replace, useNavigate } from "react-router";
 
 import "./index.less";
+import { getData, removeData, saveData } from "@/utils/jsencrypt";
 
 export type FieldType = {
   username?: string;
@@ -24,6 +25,17 @@ function LoginContainer(): JSX.Element {
       .login(values)
       .then(() => {
         // console.log(res);
+        if (values.remember) {
+          saveData(
+            {
+              username: values.username,
+              password: values.password,
+            },
+            "login"
+          );
+        } else {
+          removeData("login");
+        }
         dispatch.setting.getMenu().then((res) => {
           dispatch.setting.saveMenu(res.data);
           navigate("/home", { replace: true });
@@ -41,6 +53,7 @@ function LoginContainer(): JSX.Element {
   const goRegister = () => {
     navigate("/register");
   };
+
   return (
     <>
       <div className="mask"></div>
@@ -65,7 +78,11 @@ function LoginContainer(): JSX.Element {
                 layout="vertical"
                 labelCol={{ span: 8 }}
                 style={{ marginTop: 20 }}
-                initialValues={{ remember: true }}>
+                initialValues={{
+                  username: getData("login")?.username,
+                  password: getData("login")?.password,
+                  remember: true,
+                }}>
                 <Form.Item<FieldType>
                   label="用户名"
                   name="username"
@@ -82,7 +99,7 @@ function LoginContainer(): JSX.Element {
                   name="remember"
                   valuePropName="checked"
                   wrapperCol={{ offset: 8, span: 16 }}>
-                  <Checkbox className="auto-login">自动登录</Checkbox>
+                  <Checkbox className="auto-login">记住密码</Checkbox>
                 </Form.Item>
                 <Form.Item label={null}>
                   <Button

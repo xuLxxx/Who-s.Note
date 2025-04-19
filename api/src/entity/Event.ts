@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  BeforeUpdate,
 } from "typeorm";
 import { TodoContainer } from "./Todo";
 
@@ -12,16 +13,13 @@ export class Event {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  userId: number;
-
   @Column("simple-json", { nullable: true })
   extendedProps: {
     reStyle: boolean;
   };
 
   @Column()
-  allDays: boolean;
+  allDay: boolean;
 
   @Column()
   title: string;
@@ -41,7 +39,18 @@ export class Event {
   @Column()
   textColor: string;
 
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  createdAt: Date;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updatedAt: Date;
+
+  @BeforeUpdate()
+  updateTimestamp() {
+    this.updatedAt = new Date();
+  }
+
   @ManyToOne(() => TodoContainer, (todoContainer) => todoContainer.eventList)
-  @JoinColumn({ name: "userId" })
+  @JoinColumn({ name: "containerId" })
   todoContainer: TodoContainer;
 }

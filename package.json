@@ -15,6 +15,7 @@
     "@fullcalendar/resource": "^6.1.17",
     "@fullcalendar/resource-timeline": "^6.1.17",
     "concurrently": "^9.1.2",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "jsencrypt": "^3.3.2"
   }
 }

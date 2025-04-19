@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 //components
 import FullCalendar from "@fullcalendar/react";
 //plugins
@@ -28,16 +28,20 @@ import {
   DatePickerProps,
   Form,
   Input,
+  message,
   Modal,
+  Popconfirm,
+  PopconfirmProps,
   Switch,
 } from "antd";
 import { RangePickerProps } from "antd/es/date-picker";
 
 import dayjs, { Dayjs } from "dayjs";
-import store, { RootState } from "@/store";
-import { useSelector } from "react-redux";
+import store, { Dispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
 //types
 import type { _EventApi } from "./index.d";
+import { Event } from "@/store/model/index.type";
 // import { RangeValueType } from "antd/es/date-picker/generatePicker";
 const { RangePicker } = DatePicker;
 
@@ -52,11 +56,11 @@ type FieldType = {
 
 function CalendarComponent(): JSX.Element {
   // CALENDAR
+  const dispatch = useDispatch<Dispatch>();
   const { collapse } = useSelector((state: RootState) => state.setting);
-  const [events, setEvents] = React.useState<EventInput>();
+  const [events, setEvents] = React.useState<EventInput[]>([]);
   const calendarRef = React.useRef<FullCalendar>(null);
   const [currentEvents, setCurrentEvents] = React.useState<_EventApi[]>();
-
   // MODAL
   const [editModal, setEditModal] = React.useState<[boolean, number]>([
     false,
@@ -113,8 +117,30 @@ function CalendarComponent(): JSX.Element {
     // setEvents((prevEvents) => [...prevEvents, event]);
     console.log(event);
   };
+  const updateEvent = (event: EventInput) => {
+    //  dispatch.todo.updateEvents(event).then((res) => {
+    //  })
+  };
   const handleChangeEvent = (event: EventChangeArg) => {
-    console.log(event);
+    console.log("change", event);
+    const data = event.event;
+    const form = {
+      id: data.extendedProps.key,
+      title: data.title,
+      start: data.startStr,
+      end: data.endStr,
+      allDay: data.allDay,
+      extendedProps: {
+        reStyle: data.extendedProps.reStyle,
+        status: data.extendedProps.status || undefined,
+      },
+      backgroundColor: data.backgroundColor,
+      textColor: data.textColor,
+      borderColor: data.borderColor,
+    };
+    dispatch.todo.updateEvents(form).then((res) => {
+      console.log(res);
+    });
     // setEvents((prevEvents) => {
     //   const updatedEvents = [...prevEvents];
     //   const index = updatedEvents.findIndex((e) => e.id === event.id);
@@ -145,8 +171,28 @@ function CalendarComponent(): JSX.Element {
     setEditEvent(undefined);
     setEditModal([false, 0]);
   };
+
   useEffect(() => {
     console.log(currentEvents);
+    dispatch.todo.getEvents().then((res: any) => {
+      const data = res.data.map((item: Event) => {
+        return {
+          key: item.id,
+          title: item.title,
+          start: item.start,
+          end: item.end,
+          allDay: item.allDay,
+          extendedProps: {
+            reStyle: item.extendedProps.reStyle,
+            status: item.extendedProps.status,
+          },
+          backgroundColor: item.backgroundColor,
+          textColor: item.textColor,
+          borderColor: item.borderColor,
+        };
+      });
+      setEvents(data);
+    });
   }, []);
   return (
     <>
@@ -176,7 +222,7 @@ function CalendarComponent(): JSX.Element {
               center: "title",
               right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
-            initialEvents={events}
+            events={events}
             eventContent={renderEventContent}
             eventClick={handleEventClick}
             eventsSet={handleEvents} // called after events are initialized/added/changed/removed
@@ -213,7 +259,9 @@ function CalendarComponent(): JSX.Element {
         footer={null}
         confirmLoading={confirmEditLoading}
         onCancel={onModalCancel}>
-        {editModal[1] === 0 && <EditEvents event={editEvent} />}
+        {editModal[1] === 0 && (
+          <EditEvents event={editEvent} cancel={onModalCancel} />
+        )}
         {editModal[1] === 1 && (
           <AddEvents
             event={addEvent as DateSelectArg}
@@ -226,8 +274,11 @@ function CalendarComponent(): JSX.Element {
   );
 }
 
-function renderEventContent(eventContent: EventContentArg) {
-  // console.log(eventContent);
+function ColorEvent({
+  eventContent,
+}: {
+  eventContent: EventContentArg;
+}): JSX.Element {
   return (
     <>
       <div
@@ -237,12 +288,15 @@ function renderEventContent(eventContent: EventContentArg) {
                 backgroundColor: eventContent.backgroundColor,
                 color: eventContent.textColor,
                 padding: "4px",
+                borderRadius: 2,
+                borderBlockWidth: 1,
               }
             : {
                 backgroundColor: eventContent.backgroundColor,
                 color: eventContent.textColor,
                 padding: "0px 2px 0 2px",
                 borderRadius: 2,
+                borderBlockWidth: 1,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -255,80 +309,103 @@ function renderEventContent(eventContent: EventContentArg) {
   );
 }
 
-function Sidebar({
-  weekendsVisible,
-  handleWeekendsToggle,
-  currentEvents,
-}: any) {
-  return (
-    <div className="demo-app-sidebar">
-      <div className="demo-app-sidebar-section">
-        <h2>Instructions</h2>
-        <ul>
-          <li>Select dates and you will be prompted to create a new event</li>
-          <li>Drag, drop, and resize events</li>
-          <li>Click an event to delete it</li>
-        </ul>
-      </div>
-      <div className="demo-app-sidebar-section">
-        <label>
-          <input
-            type="checkbox"
-            checked={weekendsVisible}
-            onChange={handleWeekendsToggle}></input>
-          toggle weekends
-        </label>
-      </div>
-      <div className="demo-app-sidebar-section">
-        <h2>All Events ({currentEvents?.length})</h2>
-        <ul>
-          {currentEvents?.map((event: _EventApi) => (
-            <SidebarEvent key={event.id} event={event} />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function SidebarEvent({ event }: { event: _EventApi }): JSX.Element {
-  // console.log("currentEvent", event);
-  return (
-    <li key={event.id}>
-      <b>
-        start:{" "}
-        {formatDate(event.start as string, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}{" "}
-        \/allDay: {event.allDay ? "true, " : "false, "}
-        \/end :{" "}
-        {formatDate(event.end as string, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
-      </b>
-      \/title:<i>{event.title}</i>
-    </li>
-  );
-}
-
-function EditEvents({ event }: { event: _EventApi | undefined }): JSX.Element {
-  console.log("EDIT", event);
+function TextEvent({ eventContent }: { eventContent: EventContentArg }) {
   return (
     <>
-      <EventsForm event={event}></EventsForm>
+      <div className="text-event">
+        <div className="text-event-time">{eventContent.timeText}</div>
+        <span className="text-event-title">{eventContent.event.title}</span>
+      </div>
     </>
   );
 }
 
-function EventsForm({ event }: { event: _EventApi | undefined }): JSX.Element {
+function renderEventContent(eventContent: EventContentArg) {
+  // console.log(eventContent);
+  return (
+    <>
+      {eventContent.event.extendedProps.reStyle ? (
+        <ColorEvent eventContent={eventContent} />
+      ) : (
+        <TextEvent eventContent={eventContent} />
+      )}
+    </>
+  );
+}
+
+function EditEvents({
+  event,
+  cancel,
+}: {
+  event: _EventApi | undefined;
+  cancel: () => void;
+}): JSX.Element {
+  console.log("EDIT", event);
+  return (
+    <>
+      <EventsForm event={event} cancel={cancel}></EventsForm>
+    </>
+  );
+}
+
+function EventsForm({
+  event,
+  cancel,
+}: {
+  event: _EventApi | undefined;
+  cancel: () => void;
+}): JSX.Element {
   const onChangeAllDay = (checked: boolean) => {
     event?.setAllDay(checked);
   };
   const [title, setTitle] = React.useState(event?.title);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const dispatch = useDispatch<Dispatch>();
+  const ConfirmDelete = ({
+    setModalCancel,
+  }: {
+    setModalCancel: () => void;
+  }) => {
+    const [open, setOpen] = useState(false);
+    const confirm: PopconfirmProps["onConfirm"] = (e) => {
+      console.log(e);
+      setConfirmLoading(true);
+      if (event?.extendedProps.key) {
+        dispatch.todo.deleteEvents(event.extendedProps.key).then((res: any) => {
+          console.log(res);
+          if (res.code === 200) {
+            setOpen(false);
+            setModalCancel();
+            setConfirmLoading(false);
+            event?.remove();
+          } else {
+            setConfirmLoading(false);
+          }
+        });
+      }
+    };
+
+    const cancel: PopconfirmProps["onCancel"] = (e) => {
+      setOpen(false);
+    };
+    return (
+      <Popconfirm
+        open={open}
+        title="提示"
+        description="你确定要删除这个事件吗"
+        placement="bottom"
+        onConfirm={confirm}
+        onCancel={cancel}
+        okButtonProps={{ loading: confirmLoading }}
+        okText="确定"
+        cancelText="取消">
+        <Button danger onClick={() => setOpen(true)}>
+          删除
+        </Button>
+      </Popconfirm>
+    );
+  };
   return (
     <>
       <Form>
@@ -360,9 +437,9 @@ function EventsForm({ event }: { event: _EventApi | undefined }): JSX.Element {
             value={event?.extendedProps.reStyle}
             onChange={() => {
               event?.setExtendedProp("reStyle", !event.extendedProps.reStyle);
-              event?.setProp("textColor", "");
-              event?.setProp("backgroundColor", "");
-              event?.setProp("borderColor", "");
+              // event?.setProp("textColor", "");
+              // event?.setProp("backgroundColor", "");
+              // event?.setProp("borderColor", "");
             }}
           />
         </Form.Item>
@@ -373,6 +450,7 @@ function EventsForm({ event }: { event: _EventApi | undefined }): JSX.Element {
           <ChooseColor event={event}></ChooseColor>
         )}
       </Form>
+      <ConfirmDelete setModalCancel={cancel}></ConfirmDelete>
     </>
   );
 }
@@ -397,6 +475,7 @@ function AddEvents({
 }): JSX.Element {
   console.log([dayjs(event?.startStr), dayjs(event?.endStr)]);
   const [reStyle, setReStyle] = React.useState(false);
+  const dispath = useDispatch<Dispatch>();
   const [start, setStart] = React.useState<string>(event?.startStr);
   const [end, setEnd] = React.useState<string>(event?.endStr);
   const [form] = Form.useForm();
@@ -415,21 +494,38 @@ function AddEvents({
     setStyle({ ...style, [name]: value });
     console.log(name, value);
   };
-  const addEvent = (values: any) => {
+  const addEvent = async (values: any) => {
     if (!values.title) return;
-    event?.view.calendar.addEvent({
-      id: (~~(Math.random() * 100)).toString(),
+    setLoading(true);
+    const _form: any = {
       title: values.title,
       start: start,
       end: end,
-      allDay: event?.allDay,
+      allDay: event.allDay,
       ...style,
       extendedProps: {
         reStyle: reStyle,
       },
-    });
-    form.resetFields();
-    ok();
+    };
+    try {
+      const result = (await dispath.todo.addEvents(_form)) as {
+        code: number;
+        data: any;
+      };
+      console.log(result);
+      const _result = {
+        ...result.data,
+        key: result.data.id,
+        id: undefined,
+      };
+      if (result.code !== 200) return;
+      event?.view.calendar.addEvent(_result);
+      form.resetFields();
+      ok();
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
   };
   const addEventFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
