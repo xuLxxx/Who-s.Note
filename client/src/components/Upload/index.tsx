@@ -27,6 +27,7 @@ interface Props {
   type?: string;
   FileType?: string;
   onClose?: () => void;
+  update?: () => void;
 }
 
 interface ContentProps {
@@ -165,6 +166,7 @@ function App(reactProps: Props): JSX.Element {
           if (res.code === 200) {
             message.success("上传成功");
             reactProps.onClose && reactProps.onClose();
+            reactProps.update && reactProps.update();
           }
         })
         .finally(() => {

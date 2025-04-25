@@ -69,4 +69,59 @@ export class TodoController {
       res.status(200).send({ message: "添加事件失败 " + error, code: 500 });
     }
   }
+  static async getTodos(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const result = await todoRepository.getTodos(id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "获取待办失败", code: 401 });
+    }
+  }
+  static async addTodos(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const data = req.body;
+      const result = await todoRepository.addTodos(id, data);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "添加待办失败", code: 401 });
+    }
+  }
+  static async updateTodos(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const data = req.body;
+      const result = await todoRepository.updateTodos(id, data);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "更新待办失败", code: 401 });
+    }
+  }
+  static async deleteTodos(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const _id = +req.params.id;
+      const result = await todoRepository.deleteTodos(_id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "删除待办失败", code: 401 });
+    }
+  }
 }

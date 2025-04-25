@@ -37,12 +37,11 @@ export default function FieldCom(): JSX.Element {
   const getMarkdown = useCallback(() => {
     api.getMarkdown().then((res) => {
       setFileList(res.data);
-      if (temp.length === 0) {
-        res.data.map((item: any) => {
-          temp.push(item.id);
-        });
-        sessionStorage.setItem("temp", JSON.stringify(temp));
-      }
+      temp.length = 0;
+      res.data.map((item: any) => {
+        temp.push(item.id);
+      });
+      sessionStorage.setItem("temp", JSON.stringify(temp));
     });
   }, [location.pathname]);
 
@@ -97,6 +96,7 @@ export default function FieldCom(): JSX.Element {
         inModal={true}
         type={"file"}
         FileType={"text/markdown"}
+        update={getMarkdown}
         onClose={closeModal}></UploadBox>
     </>
   );

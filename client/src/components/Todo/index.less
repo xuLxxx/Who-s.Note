@@ -6,15 +6,12 @@
   padding: 10px;
   margin-top: 10px;
   border: 1px solid var(--color);
-  box-shadow: 1px 1px 2px 0px var(--color);
-  transition: all 0.3s ease-in-out;
+  // transition: all 0.2s ease-in-out;
 }
 
 .moving {
-  opacity: 0.4;
-  border: 1px dashed #ccc;
+  opacity: 0;
   box-shadow: none;
-  transition: all 0.3s ease-in-out;
 }
 
 .todo-title {
@@ -31,4 +28,41 @@
   // border: 1px solid var(--color);
   border-radius: 10px;
   padding-bottom: 60px;
+}
+
+.drag-node {
+  background-color: var(--background-color);
+  color: var(--color);
+  border-radius: 10px;
+  padding: 10px 0px 10px 10px;
+  // width: 100%;
+  font-size: 14px;
+  // font-weight: 400;
+  border: 1px solid var(--color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.todo-add-input::placeholder {
+  color: var(--color);
+}
+
+.todo-card:hover {
+  box-shadow: inset "100%" 0 0 0 #1e2c3a;
+}
+
+.icon-plus {
+  font-size: 24px;
+  color: var(--color);
+  transition: all 0.2s ease-in-out;
+}
+
+.add-edit-button:hover {
+  .icon-plus {
+    transform: rotate(90deg);
+  }
 }

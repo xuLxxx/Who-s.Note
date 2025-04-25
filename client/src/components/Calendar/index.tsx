@@ -358,8 +358,8 @@ function EventsForm({
   const onChangeAllDay = (checked: boolean) => {
     event?.setAllDay(checked);
   };
-  const [title, setTitle] = React.useState(event?.title);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [title, setTitle] = React.useState<string | undefined>(event?.title);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch<Dispatch>();
   const ConfirmDelete = ({
@@ -367,7 +367,7 @@ function EventsForm({
   }: {
     setModalCancel: () => void;
   }) => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
     const confirm: PopconfirmProps["onConfirm"] = (e) => {
       console.log(e);
       setConfirmLoading(true);
@@ -406,6 +406,11 @@ function EventsForm({
       </Popconfirm>
     );
   };
+
+  useEffect(() => {
+    setTitle(event?.title);
+  }, [event?.title]);
+
   return (
     <>
       <Form>
@@ -521,6 +526,7 @@ function AddEvents({
       if (result.code !== 200) return;
       event?.view.calendar.addEvent(_result);
       form.resetFields();
+      setLoading(false);
       ok();
     } catch (error) {
       setLoading(false);
