@@ -23,7 +23,7 @@ import useQuery from "@/shared/hooks/useQuery";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 // Components
-import { Card, Divider } from "antd";
+import { Card, Divider, Image } from "antd";
 import LoadingComponent from "../Loading";
 
 function MarkdownPage(): JSX.Element {
@@ -154,12 +154,12 @@ function MarkdownPage(): JSX.Element {
                   },
                   img(props) {
                     return (
-                      <img
+                      <Image
                         className="image"
                         alt={"渲染错误，请上传相关图片至服务器"}
                         src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${
                           props.src
-                        }`}></img>
+                        }`}></Image>
                     );
                   },
                 }}></Markdown>

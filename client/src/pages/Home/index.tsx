@@ -14,7 +14,14 @@ function HomeContainer(): JSX.Element {
       <div className="page-home">
         {/* {query.size ? <MarkdownPage /> : ""} */}
         {/* <MarkdownPage /> */}
-        {query.size ? <MarkdownPage /> : <div>欢迎来到Who's Note笔记系统</div>}
+        {query.size ? (
+          <MarkdownPage />
+        ) : (
+          <div className="home-welcome">
+            <div className="welcome-word">欢迎来到</div>
+            <div className="welcome-word">Who's Note 笔记系统</div>
+          </div>
+        )}
       </div>
     </>
   );

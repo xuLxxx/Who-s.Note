@@ -124,4 +124,31 @@ export class TodoController {
       res.status(200).send({ message: "删除待办失败", code: 401 });
     }
   }
+  static async getTodoSorts(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const result = await todoRepository.getTodoSorts(id);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "获取Todo排序失败", code: 401 });
+    }
+  }
+  static async updateTodoSorts(req: Request, res: Response) {
+    try {
+      const { id } = verifyToken(req);
+      if (!id) {
+        res.status(200).send({ message: "token过期", code: 401 });
+        return;
+      }
+      const data = req.body;
+      const result = await todoRepository.updateTodoSorts(id, data);
+      res.status(200).send(result);
+    } catch (error) {
+      res.status(200).send({ message: "修改Todo排序失败", code: 401 });
+    }
+  }
 }

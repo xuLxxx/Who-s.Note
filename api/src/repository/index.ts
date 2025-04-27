@@ -11,7 +11,7 @@ import { FileService } from "../service/fileService";
 import { MdService } from "../service/mdService";
 import { SettingService } from "../service/settingService";
 import TodoService from "../service/todoService";
-import { Todo, TodoContainer } from "../entity/Todo";
+import { Todo, TodoContainer, TodoSorts } from "../entity/Todo";
 import { Event } from "../entity/Event";
 
 // 数据源
@@ -38,7 +38,8 @@ export const settingRepository = new SettingService(
 export const todoRepository = new TodoService(
   AppDataSource.getRepository(TodoContainer),
   AppDataSource.getRepository(Event),
-  AppDataSource.getRepository(Todo)
+  AppDataSource.getRepository(Todo),
+  AppDataSource.getRepository(TodoSorts)
 );
 
 // export const todoRepository = new TodoService(

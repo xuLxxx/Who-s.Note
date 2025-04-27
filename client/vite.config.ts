@@ -13,6 +13,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
+      "/socket": {
+        target: "ws://localhost:3000",
+        ws: true,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/socket/, ""),
+      },
     },
   },
 

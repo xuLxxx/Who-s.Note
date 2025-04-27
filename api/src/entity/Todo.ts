@@ -34,18 +34,33 @@ export class Todo {
   title: string;
 
   @Column()
-  userId: number;
+  content: string;
 
   @Column()
-  content: string;
+  time: string;
 
   @Column()
   status: string;
 
-  @Column()
-  sorts: number;
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  createdAt: Date;
 
-  @ManyToOne(() => TodoContainer, (userId) => userId.todoList)
-  @JoinColumn({ name: "userId" })
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updatedAt: Date;
+
+  @ManyToOne(() => TodoContainer, (todoContainer) => todoContainer.todoList)
+  @JoinColumn({ name: "containerId" })
   todoContainer: TodoContainer;
+}
+
+@Entity()
+export class TodoSorts {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  userId: number;
+
+  @Column("simple-array")
+  sorts: number[];
 }
