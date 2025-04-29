@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { DragEventHandler, memo, useEffect, useRef } from "react";
 
 import * as api from "@/api/todo";
 
@@ -112,9 +112,6 @@ export default function TodoCom(): JSX.Element {
       root?.appendChild(cloneNode);
     }, 0);
   };
-  const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
   const dragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const target = e.target as HTMLDivElement;
@@ -136,7 +133,7 @@ export default function TodoCom(): JSX.Element {
       _RowData[currentIndex],
     ];
     dragData.current = _RowData;
-    console.log("enter", dragData.current);
+    // console.log("enter", dragData.current);
     if (currentIndex < targetIndex) {
       dragRef.current?.insertBefore(
         currentDrag,
@@ -194,9 +191,6 @@ export default function TodoCom(): JSX.Element {
         "transform:translate3d( " + left + "px," + top + "px,0);";
     }
   };
-  const drop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
   const blur = (e: any) => {
     if (addTitle || editModal) {
       return;
@@ -231,6 +225,7 @@ export default function TodoCom(): JSX.Element {
       });
     });
   };
+
   useEffect(() => {
     inputRef.current?.nativeElement?.addEventListener("blur", blur);
     inputRef.current?.nativeElement?.addEventListener("focus", focus);
@@ -280,28 +275,63 @@ export default function TodoCom(): JSX.Element {
       <div className="todo-card-container" ref={dragRef}>
         {sortData.map((item) => {
           return (
-            <div
-              key={item?.id}
-              className="todo-card"
-              draggable
-              onDrag={drag}
-              onDragStart={dragStart}
-              onDragOver={dragOver}
-              onDragEnter={dragEnter}
-              onDrop={drop}
-              onDragEnd={dragEnd}>
-              <div>{item?.title}</div>
-              <div>{item?.content}</div>
-              <div>{item?.id}</div>
-              <div>{item?.status}</div>
-              <button>11</button>
-            </div>
+            <TodoRecord
+              key={item.id}
+              item={item}
+              drag={drag}
+              dragStart={dragStart}
+              dragEnd={dragEnd}
+              dragEnter={dragEnter}></TodoRecord>
           );
         })}
       </div>
     </>
   );
 }
+
+/// 4.29 使用 memo 优化 TodoRecord 组件，减少不必要的渲染
+
+const TodoRecord = memo(function TodoRecord({
+  item,
+  drag,
+  dragStart,
+  dragEnter,
+  dragEnd,
+}: {
+  item: any;
+  drag: DragEventHandler<HTMLDivElement>;
+  dragStart: DragEventHandler<HTMLDivElement>;
+  dragEnter: DragEventHandler<HTMLDivElement>;
+  dragEnd: DragEventHandler<HTMLDivElement>;
+}): JSX.Element {
+  return (
+    <>
+      <div
+        key={item?.id}
+        className="todo-card"
+        draggable
+        onDrag={drag}
+        onDragStart={dragStart}
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnter={dragEnter}
+        onDragEnd={dragEnd}
+        onDrop={(e) => e.preventDefault()}>
+        <span className="todo-card-button"></span>
+        <span>
+          <span
+            className="todo-card-title"
+            style={{
+              textDecoration:
+                item?.status === "completed" ? "line-through" : "",
+            }}>
+            {item?.title}
+          </span>
+          <div className="todo-card-text">{item?.content}</div>
+        </span>
+      </div>
+    </>
+  );
+});
 
 // function AddTodo(): JSX.Element {
 //   return <></>;
@@ -444,6 +474,7 @@ function SuffixButton({
           onChange={(date, dateString) => {
             setDatePickerValue(dateString as string);
           }}
+          showTime={{ defaultValue: dayjs() }}
         />
       </>
     );

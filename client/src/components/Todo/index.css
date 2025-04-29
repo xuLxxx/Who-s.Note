@@ -51,3 +51,13 @@
 .add-edit-button:hover .icon-plus {
   transform: rotate(90deg);
 }
+.todo-card-title {
+  font-size: 32px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.todo-card-text {
+  vertical-align: middle;
+  font-weight: 600;
+  color: #909399;
+}

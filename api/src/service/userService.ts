@@ -56,7 +56,7 @@ export class UserService {
   async getUserByToken(token: string) {
     try {
       const user = jwt.verify(token, SignKey);
-      // console.log("Get User");
+
       return {
         code: 200,
         message: "获取用户信息成功",
@@ -66,6 +66,8 @@ export class UserService {
       };
     } catch (error) {
       return { code: 401, message: "token 过期" };
+    } finally {
+      console.log("Get User");
     }
   }
 }
