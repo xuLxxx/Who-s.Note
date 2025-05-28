@@ -39,16 +39,18 @@ export interface Event {
     [key: string]: any;
     reStyle: boolean;
   };
-  createAt?: string;
-  updateAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
 export interface TodoItem {
   id?: number;
   title: string;
   content: string;
   status: string;
+  stara: boolean;
   time: string;
   userId?: number;
-  createAt?: string;
-  updateAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

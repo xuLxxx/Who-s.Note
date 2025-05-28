@@ -6,6 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
   BaseEntity,
+  UpdateDateColumn,
 } from "typeorm";
 import { Event } from "./Event";
 // /实体（Entities）：这些是数据库表的映射，它们定义了表的结构和关系。
@@ -37,7 +38,10 @@ export class Todo {
   content: string;
 
   @Column()
-  time: string;
+  time: string; // 截止日期
+
+  @Column({ nullable: true })
+  stara: boolean; // 是否标星
 
   @Column()
   status: string;
@@ -45,7 +49,7 @@ export class Todo {
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   updatedAt: Date;
 
   @ManyToOne(() => TodoContainer, (todoContainer) => todoContainer.todoList)

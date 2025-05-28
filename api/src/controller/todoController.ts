@@ -118,7 +118,8 @@ export class TodoController {
         return;
       }
       const _id = +req.params.id;
-      const result = await todoRepository.deleteTodos(_id);
+      console.log(_id);
+      const result = await todoRepository.deleteTodos(_id, id);
       res.status(200).send(result);
     } catch (error) {
       res.status(200).send({ message: "删除待办失败", code: 401 });

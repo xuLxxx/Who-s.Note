@@ -62,13 +62,13 @@ export const addTodos = async (data: TodoItem) => {
 };
 
 //添加待办
-export const updateTodos = async (data: TodoItem[]) => {
+export const updateTodos = async (data: TodoItem) => {
   const config = {
-    url: "/todo/addTodos",
+    url: `/todo/updateTodos`,
     method: "put",
     data,
   };
-  return server.requestT<{ data: TodoItem[] }>(config);
+  return server.requestT<{ data: TodoItem }>(config);
 };
 
 //删除待办

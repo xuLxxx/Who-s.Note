@@ -23,16 +23,17 @@ export default class TodoService {
         relations: ["todoList"], // 确保加载 todoList 关系
       });
       if (result) {
-        const todoToUpdate = result.todoList.find(
-          (todo) => todo.id === todo.id
-        ); // 查找要更新的 Todo 实体
+        const todoToUpdate = await this.todoRepository.findOne({
+          where: { id: todo.id },
+        }); // 查找要更新的 Todo 实体
         if (todoToUpdate) {
           todoToUpdate.title = todo.title; // 更新 title 属性
           todoToUpdate.content = todo.content; // 更新 content 属性
           todoToUpdate.time = todo.time; // 更新 time 属性
           todoToUpdate.status = todo.status; // 更新 status 属性
-          await this.todoRepository.save(todoToUpdate); // 保存更新后的 Todo 实体
-          return { code: 200, message: "Todo updated successfully" }; // 返回成功响应
+          todoToUpdate.stara = todo.stara; // 更新 stara 属性
+          const data = await this.todoRepository.save(todoToUpdate); // 保存更新后的 Todo 实体
+          return { code: 200, message: "Todo updated successfully", data }; // 返回成功响应
         }
       }
     } catch (error) {
@@ -52,6 +53,7 @@ export default class TodoService {
           content: todo.content, // 设置 content 属性
           time: todo.time, // 设置 time 属性
           status: todo.status, // 设置 status 属性
+          stara: todo.stara, // 设置 stara 属性
           todoContainer: result, // 设置 todoContainer 属性
         });
         const _todo = await this.todoRepository.save(newTodo); // 保存新的 Todo 实体
@@ -67,6 +69,7 @@ export default class TodoService {
           content: todo.content, // 设置 content 属性
           time: todo.time, // 设置 time 属性
           status: todo.status, // 设置 status 属性
+          stara: todo.stara, // 设置 stara 属性
           todoContainer: result, // 设置 todoContainer 属性
         });
         const _todo = await this.todoRepository.save(newTodo); // 保存新的 Todo 实体
@@ -79,12 +82,20 @@ export default class TodoService {
       return { code: 500, message: "Internal server error" };
     }
   }
-  async deleteTodos(id: number) {
+  async deleteTodos(id: number, userId: number) {
     try {
-      const result = await this.todoContainerRepository.delete({ id }); // 直接使用 delete 方法删除指定 id 的事件
+      const result = await this.todoRepository.delete({ id }); // 直接使用 delete 方法删除指定 id 的事件
       if (result.affected === 0) {
         return { code: 500, message: "Event not found" }; // 如果没有找到事件，返回 500 状态码
       } else {
+        // let sort = await this.todoSortRepository.findOne({
+        //   where: { userId },
+        // });
+        // console.log(sort);
+        // sort?.sorts.filter((item) => item != id);
+        // console.log(sort);
+        // await this.todoSortRepository.save(sort);
+        // this.todoSortRepository.delete({ userId: id });
         return {
           code: 200,
           message: "Event deleted successfully",
