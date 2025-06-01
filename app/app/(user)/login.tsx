@@ -10,7 +10,7 @@ export default function NoteScreen() {
   const user = getUser(store.getState());
   // const user = store.getState().user;
   // console.log(user);
-  const [username, setUsername] = React.useState<string>("admin");
+  const [username, setUsername] = React.useState<string>("zxl666");
   const [password, setPassword] = React.useState<string>("123456");
   const submitLogin = () => {
     api

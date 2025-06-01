@@ -62,6 +62,10 @@ JWT_SECRET=....
 ![alt text](/assets/screenshots/image-2.png)
 ![alt text](/assets/screenshots/image-3.png)
 ![alt text](/assets/screenshots/image-4.png)
+![alt text](/assets/screenshots/image-5.png)
+![alt text](/assets/screenshots/0f41e6f4a15a39ee785f40bf39bcc47.jpg)
+![alt text](/assets/screenshots/b533460d4e1157951480239424d5109.jpg)
+![alt text](/assets/screenshots/c238d62da2b63bd774fc49ad9ec72a9.jpg)
 
 # 技术选型 Tech Stack
 
