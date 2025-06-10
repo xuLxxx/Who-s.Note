@@ -5,16 +5,32 @@ import * as bodyParser from "body-parser";
 import { AppDataSource } from "./data-source";
 import userRouter from "./router/userRouter";
 import talkRouter from "./router/talkRouter";
-import { expressjwt } from "express-jwt";
-import { Request, Response, NextFunction } from "express";
+import todoRouter from "./router/todoRouter";
 import fileRouter from "./router/fileRouter";
 import mdRouter from "./router/mdRouter";
 import settingRouter from "./router/settingRouter";
+import { expressjwt } from "express-jwt";
+import { Request, Response, NextFunction } from "express";
+
+import { Server } from "socket.io";
+
 import * as cors from "cors";
-import todoRouter from "./router/todoRouter";
 
 const app = new WebSocketExpress();
 const SignKey = process.env.JWT_SECRET as string;
+// const server = http.createServer(app); // Add this
+const io = new Server({
+  cors: {
+    origin: `http://localhost:${process.env.PORT}`,
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User connected ${socket.id}`);
+
+  // We can write our socket event listeners in here...
+});
 
 AppDataSource.initialize().then(async () => {
   //一个网络应用程序，需要绑定一个端口

@@ -2,22 +2,23 @@
 
 ## React + React Native + Express + TypeScript + TypeORM
 
-# What is Who's note
+# 什么是 Who's note
 
-`Who's note`是个人学习项目。具备**高度集成组件**特点。Web 端使用 `React` 。移动端使用 `React Native` 。分别使用 Redux `@rematch/core` `@toolkit` 实现状态管理。路由使用 `React Router`，`expo-router`。
-`Who's note`是一个**个人笔记网站**，**主题切换，解析 markdown,上传 markdown,用户可以在日历中增删改事件**
+`Who's note`是个人全栈应用。具备**高度集成组件**特点。动态菜单(服务器返回菜单内容)，单向数据流管理主题明暗，菜单折叠，面包屑组件状态，Web 端使用 `React` 。移动端使用 `React Native` 。分别使用 Redux `@rematch/core` `@toolkit` 实现状态管理。路由使用 `React Router`，`expo-router`。
+`Who's note`是一个**笔记应用**，**主题切换，解析 markdown,上传 markdown,用户可以在日历、待办列表中快速增删事件，拖曳排序，快速筛选**
 
 # 如何初始化 Setup
 
-To run the application, follow these steps:
+如何初始化此项目:
 
-1. Clone the repository.
-2. Install the dependencies: `cd api && npm install`
-3. Start the development server: `npm run dev`
-4. Install the dependencies: `cd ../client && npm install`
-5. Start the development server: `npm run dev`
+1. 克隆仓库：`git clone ...`.
+2. 安装依赖: `cd api && npm install`
+3. 启动客户端开发服务器: `cd .. && npm run client`
+4. 安装依赖: `cd client && npm install`
+5. 启动服务端开发服务器: `cd .. && npm run api`
 
-在 Install 之前在`api`目录下创建`.env`文件，内容如下：
+`npm run dev`--> `concurrnently "npm run api" "npm run client"`
+注意：在 Install 之前在`api`目录下创建`.env`文件，内容如下：
 
 ```
 PORT=....
@@ -33,14 +34,14 @@ JWT_SECRET=....
 
 - 全部使用 ts,tsx
 - 采用现代 React 风格编写，使用仅包含 Hooks 的函数式组件
-- 自定义组件存放于 `components` 包中（动态菜单,Layout,自定义 Icon 组件等功能组件）
+- 自定义组件存放于 `components` 包中（动态菜单,Layout,面包屑,Todo,Calendar,Markdown,自定义 Icon 等功能组件）
 - **主题切换** less 实现
 - api 由 express 提供并使用 typeorm 连接 PostgreSQL 数据库
 - 经实践验证、可扩展且易于理解的 Express 项目结构
 - 使用经典的 NodeJS & Vite 尽可能地构建轻量的项目，而不是使用脚手架
 - React 使用 Redux @rematch/core 管理状态，RN 使用 Redux @toolkit 分别提供了一个完整的学习 Redux 样例。
-- Axios + Redux 封装 LRU 缓存算法来减少重复的 Get 请求。
-- multer 实现 Express 通用上传文件功能。
+- Axios + Redux **封装 LRU 缓存算法**来减少重复的 Get 请求。
+- multer 实现 Express **通用上传文件**功能。
 - 健全的 markdown 解析，支持 h1-h6,图片,链接,代码块,表格,引用,分割线,列表等。
 - React Native 使用官方推荐的 expo 框架搭建。
 - fullcalandar 第三库实现一个独具特色的日历。
@@ -85,7 +86,7 @@ JWT_SECRET=....
 - 优化 markdown 内的图片上传
 - Docker 部署到服务器完成云存储等功能
 - React-Native Markdown 无法实现生成目录。
-- 认为可以使用 CodeMirror unified 实现 更强悍 的 Web-Markdown 功能
+- 认为可以使用 CodeMirror + unified 实现 更强悍 的 Web-Markdown 功能
 
 # Repo Public
 

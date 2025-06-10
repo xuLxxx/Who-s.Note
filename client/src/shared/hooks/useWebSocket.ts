@@ -1,19 +1,23 @@
 import React from "react";
 import { baseUrl } from "@/shared";
+import { useSelector, useStore } from "react-redux";
+import { RootState } from "@/store";
 
 export const useWebSocket = (url: string) => {
   const [data, setData] = React.useState<any>(null);
   const [ws, setWs] = React.useState<WebSocket | null>(null);
+  const token = useSelector((state: RootState) => state.user.token);
 
   React.useEffect(() => {
     if (!url) return;
     const newWs = new WebSocket(baseUrl + url);
     newWs.onopen = () => {
       console.log("连接成功");
+      newWs.send("Bearer " + token);
     };
     newWs.onmessage = (event: MessageEvent) => {
       console.log("收到消息", event);
-      setData(JSON.parse(event.data));
+      setData(event.data);
     };
     newWs.onclose = () => {
       console.log("连接关闭");

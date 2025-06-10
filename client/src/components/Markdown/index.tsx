@@ -18,7 +18,7 @@ import * as api from "@/api/file";
 // Less
 import "./index.less";
 // Hooks
-import AnchorNav from "@/shared/hooks/useAnchor";
+import AnchorNav from "@/components/Anchor";
 import useQuery from "@/shared/hooks/useQuery";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
