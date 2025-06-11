@@ -1,0 +1,16 @@
+.lazy-img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.lazy-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Optional aspect ratio preservation */
+.lazy-img-container::before {
+  content: "";
+  display: block;
+}

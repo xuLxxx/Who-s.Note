@@ -15,6 +15,7 @@ export type Setting = {
   menu: Menu[];
   collapse: boolean;
   theme: "light" | "dark";
+  lazyImg: boolean;
 };
 
 export type Todo = {

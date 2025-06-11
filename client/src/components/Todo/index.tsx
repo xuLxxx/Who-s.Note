@@ -280,8 +280,8 @@ export default function TodoCom(): JSX.Element {
         }
       );
       reset.onfinish = function () {
-        root?.removeChild(cloneNode);
         cloneObj && cloneNode.removeChild(cloneObj);
+        root?.removeChild(cloneNode);
         currentDrag.classList.remove("moving");
       };
       // cloneNode.removeChild(cloneObj);

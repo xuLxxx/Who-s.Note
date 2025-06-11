@@ -1,7 +1,7 @@
 // Npm UI Lib
 import React, { useCallback } from "react";
 import Markdown from "react-markdown";
-import { RootState } from "@/store";
+import { Dispatch, RootState } from "@/store";
 // Plugins
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
@@ -20,11 +20,12 @@ import "./index.less";
 // Hooks
 import AnchorNav from "@/components/Anchor";
 import useQuery from "@/shared/hooks/useQuery";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 // Components
-import { Card, Divider, Image } from "antd";
+import { Button, Card, Divider, Image, Radio, Switch } from "antd";
 import LoadingComponent from "../Loading";
+import { LazyImg } from "../LazyImg";
 
 function MarkdownPage(): JSX.Element {
   const [markdown, setMarkdown] = React.useState<string>("");
@@ -41,7 +42,7 @@ function MarkdownPage(): JSX.Element {
 
   React.useMemo(() => {
     console.log("重新渲染");
-    setMarkdown("Loading...");
+    setMarkdown("Loading");
     getMarkdown();
   }, [location.search]);
   let index = 0;
@@ -50,11 +51,16 @@ function MarkdownPage(): JSX.Element {
       ? dark
       : light;
   const collapse = useSelector((state: RootState) => state.setting.collapse);
+  const lazy = useSelector((state: RootState) => state.setting.lazyImg);
+  const dispatch = useDispatch<Dispatch>();
+  const changeLazy = (checked: boolean) => {
+    dispatch({ type: "setting/changeLazyImg", payload: checked });
+  };
 
   return (
     <>
       <div className="flex">
-        {collapse && markdown !== "Loading..." && (
+        {collapse && markdown !== "Loading" && (
           <>
             <div className="anchor">
               <Card>
@@ -67,12 +73,23 @@ function MarkdownPage(): JSX.Element {
               <Card>设置-&gt;删除-&gt;修改标题、封面</Card>
               <Card>修改内容</Card>
               <Card>评论</Card>
+              <Card>
+                <Switch
+                  checkedChildren="开启"
+                  unCheckedChildren="关闭"
+                  checked={lazy}
+                  onChange={(checked) => {
+                    changeLazy(checked);
+                  }}
+                />
+                {" "}图片懒加载模式
+              </Card>
             </div>
           </>
         )}
         <div className="markdown">
           <Card className="md-container">
-            {markdown === "Loading..." ? (
+            {markdown === "Loading" ? (
               <LoadingComponent
                 style={{ width: "100%", height: "80vh" }}></LoadingComponent>
             ) : (
@@ -153,13 +170,20 @@ function MarkdownPage(): JSX.Element {
                     );
                   },
                   img(props) {
-                    return (
+                    return !lazy ? (
                       <Image
                         className="image"
                         alt={"渲染错误，请上传相关图片至服务器"}
                         src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${
                           props.src
                         }`}></Image>
+                    ) : (
+                      <LazyImg
+                        src={`${import.meta.env.VITE_API_BASE_URL}/uploads/${
+                          props.src
+                        }`}
+                        alt={"渲染错误，请上传相关图片至服务器"}
+                      />
                     );
                   },
                 }}></Markdown>

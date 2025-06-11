@@ -8,6 +8,7 @@ const settingState: Setting = {
   menu: [],
   collapse: getSetting() ? getSetting().collapse : true,
   theme: getSetting() ? getSetting().theme : "dark",
+  lazyImg: false,
 };
 
 const dataToJson = (one: number, data: menuApi.Menu[]) => {
@@ -57,6 +58,7 @@ export default {
         menu: [],
         theme,
         collapse: getSetting() ? getSetting().collapse : true,
+        lazyImg: false,
       });
     },
     async changeCollapse(collapse: boolean) {
@@ -70,6 +72,21 @@ export default {
         menu: [],
         theme: getSetting() ? getSetting().theme : "dark",
         collapse: collapse,
+        lazyImg: false,
+      });
+    },
+    async changeLazyImg(lazyImg: boolean) {
+      dispatch({
+        type: "setting/setSetting",
+        payload: {
+          lazyImg,
+        },
+      });
+      setSetting({
+        menu: [],
+        theme: getSetting() ? getSetting().theme : "dark",
+        collapse: getSetting() ? getSetting().collapse : true,
+        lazyImg: lazyImg,
       });
     },
   }),
