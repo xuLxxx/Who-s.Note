@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useCallback,
-  useState,
-  useRef,
-} from "react";
+import { useEffect, useState } from "react";
 import * as api from "@/api/system/menu";
 import { useNavigate } from "react-router";
 import { Menu } from "antd";
@@ -26,7 +20,7 @@ interface Props {
 export default function MenuCom(props: Props): JSX.Element {
   const navigate = useNavigate();
   const [chosedKey, setChosedKey] = useState<string[]>([]); // 当前选中
-  const [openKeys, setOpenKeys] = useState<string[]>([]); // 当前需要被展开的项
+  const [_, setOpenKeys] = useState<string[]>([]); // 当前需要被展开的项
   const [treeDom, setTreeDom] = useState<MenuItem[]>([]);
   const collapse = useSelector((state: RootState) => state.setting.collapse);
 

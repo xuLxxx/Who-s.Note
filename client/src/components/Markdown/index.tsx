@@ -23,7 +23,7 @@ import useQuery from "@/shared/hooks/useQuery";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 // Components
-import { Button, Card, Divider, Image, Radio, Switch } from "antd";
+import {  Card, Divider, Image,  Switch } from "antd";
 import LoadingComponent from "../Loading";
 import { LazyImg } from "../LazyImg";
 
@@ -82,7 +82,7 @@ function MarkdownPage(): JSX.Element {
                     changeLazy(checked);
                   }}
                 />
-                {" "}图片懒加载模式
+                <span style={{ verticalAlign: "middle" }}> 图片懒加载模式</span>
               </Card>
             </div>
           </>

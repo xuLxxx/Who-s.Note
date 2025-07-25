@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
 import { Button } from "antd";
 
 import ChatRoom from "@/components/ChatRoom";
-// import { useSocketIO } from "@/shared/hooks/useSocketIO";
-import { useWebSocket } from "@/shared/hooks/useWebSocket";
 
 import "./index.less";
 
 export default function Friend(): JSX.Element {
   // const socket = useSocketIO();
-  const { data, onSend } = useWebSocket("/test");
   return (
     <>
       <div className="friend-left">

@@ -95,10 +95,10 @@ export class Service {
       ) {
         return res.data;
       }
-      console.log(
-        "LRU-Mode",
-        res.config.method === "get" && !!res.config.headers.lruCache
-      );
+      // console.log(
+      //   "LRU-Mode",
+      //   res.config.method === "get" && !!res.config.headers.lruCache
+      // );
       if (res.config.method === "get" && !!res.config.headers.lruCache) {
         const key = hashObject(res.config);
         store.dispatch.user.setCache({ key, data: res.data });

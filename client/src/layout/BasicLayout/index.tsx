@@ -2,13 +2,10 @@ import React, { useEffect, useCallback } from "react";
 import { Outlet } from "react-router";
 import { Layout } from "antd";
 
-import * as menuApi from "@/api/system/menu";
-
 import HeaderCom from "@/components/Header";
 import SideBarCom from "@/components/SideBar";
 import "./index.less";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "redux";
+import { useSelector } from "react-redux";
 
 const { Content, Header, Sider } = Layout;
 

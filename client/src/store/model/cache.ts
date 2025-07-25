@@ -1,5 +1,5 @@
-import { Dispatch, RootState } from "@/store";
-import { UserInfo, ReduxCache } from "@/store/model/index.type";
+// import { Dispatch } from "@/store";
+import { ReduxCache } from "@/store/model/index.type";
 import { LRUCache } from "@/utils/LRUCache";
 
 const cacheState: ReduxCache = {
@@ -9,5 +9,5 @@ const cacheState: ReduxCache = {
 export default {
   state: cacheState,
   reducers: {},
-  effects: (dispatch: Dispatch) => ({}),
+  // effects: (dispatch: Dispatch) => ({}),
 };

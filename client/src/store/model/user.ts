@@ -1,7 +1,7 @@
 import * as api from "@/api/login";
 import * as userApi from "@/api/user";
 import { message } from "antd";
-import { Dispatch, RootState } from "@/store";
+import { Dispatch } from "@/store";
 import { UserInfo } from "@/store/model/index.type";
 import { setToken, removeToken, getToken } from "@/utils/auth";
 import { LRUCache } from "@/utils/LRUCache";

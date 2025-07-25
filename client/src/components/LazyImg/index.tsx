@@ -30,13 +30,6 @@ export function LazyImg({
     setHasError(false);
   }, [src, lazy]);
 
-  // 如果不是懒加载模式，立即设置为可见
-  useEffect(() => {
-    if (!lazy) {
-      setIsVisible(true);
-    }
-  }, [lazy]);
-
   useEffect(() => {
     if (!lazy || isVisible || !containerRef.current) return;
 
@@ -49,7 +42,7 @@ export function LazyImg({
     };
 
     imgRef.current = new IntersectionObserver(handleIntersection, {
-      threshold: 0.01,
+      threshold: 1,
     });
 
     imgRef.current.observe(containerRef.current);
@@ -58,14 +51,7 @@ export function LazyImg({
       imgRef.current?.disconnect();
     };
   }, [lazy, isVisible, src]);
-
-  // 清除观察器
-  useEffect(() => {
-    return () => {
-      imgRef.current?.disconnect();
-    };
-  }, []);
-
+  
   const showImage = isVisible && !hasError;
   const showPlaceholder = !showImage && !hasError;
   const showError = hasError && errorFallback;

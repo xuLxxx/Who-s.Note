@@ -1,4 +1,3 @@
-import React from "react";
 import "./index.component.less";
 import svgLogo from "@/assets/react.svg";
 import { Button, Dropdown, Flex, Row, Col } from "antd";

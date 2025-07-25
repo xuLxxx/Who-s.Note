@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
-import * as userApi from "@/api/user";
-import * as menuApi from "@/api/system/menu";
-import { Routes, Route, Navigate, useLocation } from "react-router";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router";
 import Loading from "@/components/Loading";
 import BasicLayout from "@/layout/BasicLayout";
 import { AuthProvider, AuthNoLogin } from "./permission";
 // import HomeContainer from "../pages/Home";
 // import Friend from "../pages/Friend";
 import loadable from "@loadable/component"; //无法找到类型文件解决方法 npm i --save-dev @types/loadable__component
-import { Layout } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { Dispatch, RootState } from "@/store";
 
 const vhStyle: React.CSSProperties = {
   width: "100vw",

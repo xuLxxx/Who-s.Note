@@ -80,13 +80,13 @@ JWT_SECRET=....
 
 # 展望 | 未完成 | Future & Not Done Yet
 
-- 通过实现限制用户功能 完善 RBAC 情景
-- 通过修改用户信息 完善 CRUD 情景
-- 完善基于 Websocket 的实时聊天功能、评论和实时聊天功能
-- 优化 markdown 内的图片上传
-- Docker 部署到服务器完成云存储等功能
-- React-Native Markdown 无法实现生成目录。
-- 认为可以使用 CodeMirror + unified 实现 更强悍 的 Web-Markdown 功能
+- [ ] 通过实现限制用户功能 完善 RBAC 情景
+- [ ] 通过修改用户信息 完善 CRUD 情景
+- [ ] 完善基于 Websocket 的实时聊天功能、评论和实时聊天功能
+- [ ] 优化 markdown 内的图片上传
+- [ ] Docker 部署到服务器完成云存储等功能
+- [ ] React-Native Markdown 无法实现生成目录。
+- [ ] 认为可以使用 CodeMirror + unified 实现 更强悍 的 Web-Markdown 功能
 
 # Repo Public
 

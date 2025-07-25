@@ -16,8 +16,8 @@
     "strictNullChecks": true, // 不允许把null、undefined赋值给其他类型的变量
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {

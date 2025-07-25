@@ -14,7 +14,6 @@ import "./index.less";
 import "./index.type";
 import {
   Button,
-  Card,
   DatePicker,
   Drawer,
   Empty,
@@ -33,7 +32,6 @@ import {
   DeleteOutlined,
   EditOutlined,
   FileTextOutlined,
-  InfoCircleOutlined,
   PlusOutlined,
   StarFilled,
   StarOutlined,
@@ -168,53 +166,60 @@ export default function TodoCom(): JSX.Element {
   };
 
   let currentDrag: EventTarget & HTMLDivElement;
-  var img = new Image();
+  let img = new Image();
   img.src =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' %3E%3Cpath /%3E%3C/svg%3E";
   // let root = document.getElementById("root");
   let root = document.body;
-  var cloneNode: HTMLDivElement = document.createElement("div");
-  var cloneObj: HTMLDivElement = document.createElement("div");
-  var reset: Animation | null;
-  var offsetX = 0;
-  var offsetY = 0;
-  var startX = 0;
-  var startY = 0;
+  let cloneNode: HTMLDivElement = document.createElement("div");
+  let cloneObj: HTMLDivElement = document.createElement("div");
+  let reset: Animation | null | NodeJS.Timeout;
+  let offsetX = 0;
+  let offsetY = 0;
+  let startX = 0;
+  let startY = 0;
 
   const dragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    // if (e.target.nodeType === Node.ELEMENT_NODE) {
+    if (reset) {
+      // e.preventDefault();
+      // 想要解决 动画没有结束前，太快的重新拖曳，将结点插入到了克隆元素内的bug，本方法改善但未解决
+      reset = setTimeout(() => {
+        reset = null;
+      }, 0);
+      return;
+    }
     e.dataTransfer.effectAllowed = "move";
     currentDrag = e.currentTarget;
     e.dataTransfer.setDragImage(img, 0, 0);
-    cloneObj = currentDrag.cloneNode(true) as HTMLDivElement;
+    cloneObj = currentDrag.cloneNode(true) as HTMLDivElement; // currentDrag为要克隆的节点。克隆节点，包括其子节点
     currentDrag.classList.add("moving");
     setTimeout(() => {
-      var rect = currentDrag.getBoundingClientRect();
-      var left = rect.left;
-      var top = rect.top;
+      let rect = currentDrag.getBoundingClientRect();
+      let left = rect.left;
+      let top = rect.top;
       startX = e.clientX;
       startY = e.clientY;
       offsetX = startX - left;
       offsetY = startY - top;
       cloneObj.style.width = currentDrag.offsetWidth - 10 + "px";
       cloneObj.style.height = currentDrag.offsetHeight - startY + "px";
-      cloneObj.style.transform = "translate3d(0,0,0)";
+      // cloneObj.style.transform = "translate3d(0,0,0)";
       cloneObj.classList.remove("todo-card");
       cloneNode.appendChild(cloneObj);
       cloneNode.classList.add("drag-node");
-      cloneNode.style =
-        "transform:translate3d( " + left + "px ," + top + "px,0);";
+      cloneNode.setAttribute(
+        "style",
+        "transform:translate3d( " + left + "px ," + top + "px,0);"
+      );
       root?.appendChild(cloneNode);
     }, 0);
+    // }
   };
   const dragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const target = e.target as HTMLDivElement;
-    if (
-      e.target === currentDrag ||
-      e.target === dragRef.current ||
-      target === cloneObj ||
-      e.currentTarget === cloneObj
-    ) {
+    if (e.target === currentDrag || e.target === dragRef.current) {
       return;
     }
     // 想要解决 动画没有结束前，太快的重新拖曳，将结点插入到了克隆元素内的bug，但未解决
@@ -231,13 +236,52 @@ export default function TodoCom(): JSX.Element {
     if (currentIndex < targetIndex) {
       dragRef.current?.insertBefore(
         currentDrag,
-        target.nextSibling
+        target.nextElementSibling
       ) as HTMLDivElement; // insertBefore(newNode,referenceNode) newNode 要插入的节点。 referenceNode 作为参照节点，即要插入的位置。
+    } else if (currentIndex === targetIndex) {
+      return;
     } else {
       dragRef.current?.insertBefore(
         currentDrag,
         e.currentTarget
       ) as HTMLDivElement;
+    }
+  };
+  const dragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    if (cloneNode) {
+      let rect = e.currentTarget.getBoundingClientRect();
+      let left = rect.left;
+      let top = rect.top;
+      updateSorts(dragData.current);
+      reset = cloneNode.animate(
+        [
+          { transform: cloneNode.style.transform }, // 起点
+          { transform: "translate3d(" + left + "px," + top + "px,0)" }, // 终点
+        ],
+        {
+          duration: 150,
+          easing: "ease-in-out",
+        }
+      );
+      reset.onfinish = function () {
+        cloneNode.removeChild(cloneObj);
+        root?.removeChild(cloneNode);
+        currentDrag.classList.remove("moving");
+        reset = null;
+      };
+      // cloneNode.removeChild(cloneObj);
+    }
+  };
+  const drag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    // 鼠标相对于视口的位置 e.clientX e.clientY （e是鼠标对象）
+    if (cloneNode) {
+      let left = ~~(e.clientX - offsetX);
+      let top = ~~(e.clientY - offsetY);
+      cloneNode.setAttribute(
+        "style",
+        "transform:translate3d( " + left + "px," + top + "px,0);"
+      );
     }
   };
   const updateSorts = (data: TodoItem[]) => {
@@ -263,40 +307,7 @@ export default function TodoCom(): JSX.Element {
       // setRowData(res.todoList);
     });
   };
-  const dragEnd = (e: React.DragEvent<HTMLDivElement>) => {
-    if (cloneNode) {
-      var rect = e.currentTarget.getBoundingClientRect();
-      var left = rect.left;
-      var top = rect.top;
-      updateSorts(dragData.current);
-      reset = cloneNode.animate(
-        [
-          { transform: cloneNode.style.transform }, // 起点
-          { transform: "translate3d(" + left + "px," + top + "px,0)" }, // 终点
-        ],
-        {
-          duration: 150,
-          easing: "ease-in-out",
-        }
-      );
-      reset.onfinish = function () {
-        cloneObj && cloneNode.removeChild(cloneObj);
-        root?.removeChild(cloneNode);
-        currentDrag.classList.remove("moving");
-      };
-      // cloneNode.removeChild(cloneObj);
-    }
-  };
-  const drag = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    // 鼠标相对于视口的位置 e.clientX e.clientY （e是鼠标对象）
-    if (cloneNode) {
-      var left = ~~(e.clientX - offsetX);
-      var top = ~~(e.clientY - offsetY);
-      cloneNode.style =
-        "transform:translate3d( " + left + "px," + top + "px,0);";
-    }
-  };
+
   const blur = (e: any) => {
     if (addTitle || editModal) {
       return;
@@ -480,7 +491,7 @@ const FliterCom = ({
               type="text"
               styles={{
                 icon: {
-                  color: "var(--color)",
+                  color: "let(--color)",
                   fontSize: "20px",
                 },
               }}></Button>
@@ -499,7 +510,7 @@ const FliterCom = ({
               type="text"
               styles={{
                 icon: {
-                  color: "var(--color)",
+                  color: "let(--color)",
                   fontSize: "20px",
                 },
               }}></Button>
@@ -612,7 +623,7 @@ const TitleCom = memo(function TitleCom({
         {" "}
         <Button
           type="text"
-          styles={{ icon: { color: "var(--color)" } }}
+          styles={{ icon: { color: "let(--color)" } }}
           onClick={(e) => {
             e.stopPropagation();
             updateRecord({
@@ -771,7 +782,7 @@ const TodoRecord = memo(function TodoRecord({
               type="text"
               styles={{
                 icon: {
-                  color: "var(--color)",
+                  color: "let(--color)",
                   fontSize: "20px",
                 },
               }}></Button>
@@ -841,8 +852,8 @@ function DatePickerCom({
 
   dayjs.extend(customParseFormat);
 
-  const range = (start: number, end: number) => {
-    const result = [];
+  const range = (start: number, end: number): number[] => {
+    const result: number[] = [];
     for (let i = start; i < end; i++) {
       result.push(i);
     }
@@ -1029,7 +1040,7 @@ function SuffixButton({
             open={clockModal}
             onConfirm={confirmClock}
             onCancel={cancelClock}
-            icon={<ClockCircleOutlined style={{ color: "var(--color)" }} />}
+            icon={<ClockCircleOutlined style={{ color: "let(--color)" }} />}
             okText="确认"
             cancelText="取消">
             <Button
@@ -1046,7 +1057,7 @@ function SuffixButton({
             open={contentModal}
             onConfirm={confirmContent}
             onCancel={cancelContent}
-            icon={<FileTextOutlined style={{ color: "var(--color)" }} />}
+            icon={<FileTextOutlined style={{ color: "let(--color)" }} />}
             okText="确认"
             cancelText="取消">
             <Button

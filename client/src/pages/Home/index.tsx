@@ -1,9 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import { Button, Card, Divider } from "antd";
-
 import "./index.less";
-
-import Icon from "@/components/Icon";
 import MarkdownPage from "@/components/Markdown";
 import useQuery from "@/shared/hooks/useQuery";
 

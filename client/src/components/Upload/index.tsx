@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { InboxOutlined, PlusOutlined } from "@ant-design/icons";
 import { GetProp, UploadFile, UploadProps, Image, FormProps } from "antd";
 import { Button, Form, Input, message, Modal, Upload } from "antd";
@@ -48,7 +48,8 @@ type FileObj = {
 
 function App(reactProps: Props): JSX.Element {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [posterList, setPosterList] = useState<UploadFile[]>([]);
+  // const [posterList, setPosterList] = useState<UploadFile[]>([]);
+  const poster = useRef<UploadFile>();
   let fileObj: FileObj = {
     fileType: "",
     fileUrl: "",
@@ -116,13 +117,14 @@ function App(reactProps: Props): JSX.Element {
   const onFinishFailed = () => {
     message.error("请完成表单填写");
   };
-  const savePoster = async (file: FileType) => {
-    setPosterList([file]);
+  const savePoster = (file: FileType) => {
+    poster.current = file;
   };
-  const submitPoster = async () => {
+  const submitPoster = () => {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
-      formData.append(reactProps.type!, posterList[0] as FileType);
+      formData.append(reactProps.type!, poster.current?.originFileObj as FileType);
+      console.log(formData);
       api
         .uploadFile(formData)
         .then((res) => {
@@ -242,18 +244,12 @@ function AvatarUpload(props: { onUpload: Function }): JSX.Element {
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handlePreview = async (file: UploadFile) => {
+    console.log(file);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as FileType);
     }
-
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
-  };
-
-  const handleSubmit = (file: FileType) => {
-    // console.log(file);
-    setFileList([file]);
-    props.onUpload(file);
   };
 
   const uploadButton = (
@@ -267,14 +263,38 @@ function AvatarUpload(props: { onUpload: Function }): JSX.Element {
     setFileList([]);
   };
 
+  const beforeUpload = (file: FileType) => {
+    return false;
+  };
+
+  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
+    const file = newFileList[0];
+    console.log(file);
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size! / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    if (isJpgOrPng && isLt2M) {
+      setFileList(newFileList);
+
+      props.onUpload(file);
+    }
+    return true;
+  };
+
   return (
     <>
       <Upload
         listType="picture-circle"
         fileList={fileList}
+        onChange={handleChange}
         onPreview={handlePreview}
         onRemove={removePicture}
-        beforeUpload={handleSubmit}>
+        beforeUpload={beforeUpload}>
         {fileList.length ? null : uploadButton}
       </Upload>
       {previewImage && (

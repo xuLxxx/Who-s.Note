@@ -60,15 +60,16 @@ AppDataSource.initialize().then(async () => {
     console.log(err);
     if (err.name === "UnauthorizedError") {
       console.error(req.path + ",无效token");
+      // render the error page
+      res.status(err.status || 500);
+      res.render("error");
       res.send({
         message: "token过期，请重新登录",
         code: 401,
       });
       return;
-    }
-    // render the error page
-    res.status(err.status || 500);
-    res.render("error");
+    } 
+    next();
   });
   app.listen(process.env.PORT, () => {
     console.log("服务器启动成功", process.env.PORT);

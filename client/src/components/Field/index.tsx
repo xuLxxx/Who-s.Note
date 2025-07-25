@@ -2,8 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import { Button } from "antd";
 import { PlusCircleFilled } from "@ant-design/icons";
 import "./index.less";
-
-import Avatar from "@/assets/avatar.jpg";
 import UploadBox from "@/components/Upload";
 
 import * as api from "@/api/file";
@@ -37,6 +35,7 @@ export default function FieldCom(): JSX.Element {
   const getMarkdown = useCallback(() => {
     api.getMarkdown().then((res) => {
       setFileList(res.data);
+      // console.log("111", res.data);
       temp.length = 0;
       res.data.map((item: any) => {
         temp.push(item.id);

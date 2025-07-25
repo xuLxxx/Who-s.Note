@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useLocation } from "react-router";
 
 import { Breadcrumb, Flex } from "antd";
@@ -7,8 +7,6 @@ import { PauseOutlined } from "@ant-design/icons";
 import "./index.less";
 import type { Menu } from "@/api/system/menu";
 import Icon from "../Icon";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 
 interface Props {
   menu?: Menu[];

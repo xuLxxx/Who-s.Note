@@ -3,7 +3,7 @@ import React, { memo, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 //plugins
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 // import resourseTimelinePlugin from "@fullcalendar/resource-timeline";
 //styles
@@ -16,7 +16,6 @@ import {
   EventContentArg,
   EventInput,
   EventRemoveArg,
-  formatDate,
 } from "@fullcalendar/core/index.js";
 
 import { MODAL_EVENTS } from "./constant";
@@ -28,7 +27,6 @@ import {
   DatePickerProps,
   Form,
   Input,
-  message,
   Modal,
   Popconfirm,
   PopconfirmProps,
@@ -37,7 +35,7 @@ import {
 import { RangePickerProps } from "antd/es/date-picker";
 
 import dayjs, { Dayjs } from "dayjs";
-import store, { Dispatch, RootState } from "@/store";
+import { Dispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 //types
 import type { _EventApi } from "./index.d";
@@ -68,7 +66,7 @@ function CalendarComponent(): JSX.Element {
   ]);
   const [editEvent, setEditEvent] = React.useState<_EventApi>();
   const [addEvent, setAddEvent] = React.useState<DateSelectArg>();
-  const [confirmEditLoading, setConfirmEditLoading] = React.useState(false);
+  const [confirmEditLoading] = React.useState(false);
 
   //   const currentEvents = React.useMemo(() => {
   //     return events.filter((event) => {
@@ -117,10 +115,10 @@ function CalendarComponent(): JSX.Element {
     // setEvents((prevEvents) => [...prevEvents, event]);
     console.log(event);
   };
-  const updateEvent = (event: EventInput) => {
-    //  dispatch.todo.updateEvents(event).then((res) => {
-    //  })
-  };
+  // const updateEvent = (event: EventInput) => {
+  //   //  dispatch.todo.updateEvents(event).then((res) => {
+  //   //  })
+  // };
   const handleChangeEvent = (event: EventChangeArg) => {
     console.log("change", event);
     const data = event.event;
@@ -386,7 +384,7 @@ function EventsForm({
       }
     };
 
-    const cancel: PopconfirmProps["onCancel"] = (e) => {
+    const cancel: PopconfirmProps["onCancel"] = () => {
       setOpen(false);
     };
     return (
@@ -561,7 +559,7 @@ function AddEvents({
             // defaultValue={[dayjs(event?.startStr), dayjs(event?.endStr)]}
             // format={"YYYY-MM-DD HH:mm:ss"}
             value={[dayjs(event?.startStr), dayjs(event?.endStr)]}
-            onChange={(value, dateString) => {
+            onChange={(_, dateString) => {
               // console.log("Selected Time: ", value);
               // console.log("Formatted Selected Time: ", dateString);
               setStart(dateString?.[0]?.toString()!);

@@ -1,8 +1,7 @@
 import * as api from "@/api/todo";
 import { Todo, Event } from "./index.type";
-import { Dispatch, RootState } from "@/store";
+import { Dispatch } from "@/store";
 import { message } from "antd";
-import { getEvents, getTodos, saveEvents, saveTodos } from "@/utils/tools";
 
 const todoState: Todo = {
   eventList: [],

@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dispatch, RootState } from "@/store";
 import * as menuApi from "@/api/system/menu";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 // interface AuthProvider {
 //   isAuthenticated: boolean;
 //   username: string;

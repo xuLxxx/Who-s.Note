@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Input, Space } from "antd";
 import { EnterOutlined } from "@ant-design/icons";
 

@@ -15,7 +15,7 @@ interface Props {
   menu?: menuApi.Menu[];
 }
 
-export default function SideBarCom(props: Props): JSX.Element {
+export default function SideBarCom(): JSX.Element {
   const menuList = useSelector((state: RootState) => state.setting.menu);
 
   return (
