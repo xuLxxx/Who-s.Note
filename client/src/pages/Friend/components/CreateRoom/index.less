@@ -1,0 +1,78 @@
+.create-room-card {
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+
+  .create-room-content {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  .create-room-icon {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  .create-room-title {
+    font-size: 20px;
+  }
+  .create-room-spec {
+    font-size: 14px;
+    color: #959598;
+  }
+  .create-room-search {
+    margin-top: 10px;
+  }
+  .create-room-search-result {
+    margin-top: 10px;
+    &.create-room-search-result-hidden {
+      display: none;
+    }
+    &.create-room-search-result-has-data {
+      display: block;
+    }
+    .create-room-search-result-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+  .create-room-search-result-room-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      background-color: #959598;
+    }
+  }
+  .create-room-search-result-room-card-name {
+    font-size: 16px;
+  }
+}
+
+.create-room-upload-img {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+}
+.create-room-upload-img-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: start;
+  gap: 9px;
+  .create-room-upload-img-title {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+  }
+  .create-room-upload-img-spec {
+    font-size: 14px;
+    color: #959598;
+  }
+}

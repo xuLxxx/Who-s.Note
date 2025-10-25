@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Request } from "../express";
 import { menuRepository } from "../repository";
-import { verifyToken } from "../utils/auth";
+import { verifyTokenByReq } from "../utils/auth";
 import { User } from "../entity/User";
 import { Menu } from "../entity/Menu";
 import * as jwt from "jsonwebtoken";
@@ -24,7 +24,7 @@ export class MenuController {
   }
   static async addMenu(req: Request, res: Response) {
     try {
-      verifyToken(req);
+      verifyTokenByReq(req);
       let data = new Menu();
       data = req.body;
       const result = await menuRepository.addMenu(data);

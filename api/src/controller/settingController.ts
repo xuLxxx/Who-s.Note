@@ -1,10 +1,5 @@
 import { Response, Request } from "express";
 import { settingRepository } from "../repository";
-import { fileRepository } from "../repository";
-import * as jwt from "jsonwebtoken";
-import * as multer from "multer";
-import { Buffer } from "buffer";
-
 import "dotenv/config";
 // 暂时弃用。系统设置(主题、collaspe)在本地保存
 const SignKey = process.env.JWT_SECRET as string;

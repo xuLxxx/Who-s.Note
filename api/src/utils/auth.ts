@@ -10,13 +10,30 @@ export const generateToken = (user: User) => {
   return token;
 };
 
-export const verifyToken = (req: Request) => {
+export const verifyTokenByReq = (req: Request) => {
   try {
     const token: string = req.headers.authorization.split(" ")[1] as string;
     if (!token) throw new Error("token过期");
     const user = jwt.verify(token, SignKey) as User;
     return user;
   } catch (error) {
-    throw new Error("token过期");
+    return {
+      id: 0,
+      // message: "token过期",
+    } as User;
+  }
+};
+
+export const verifyToken = (token: string) => {
+  try {
+    // const token: string = req.headers.authorization.split(" ")[1] as string;
+    if (!token) throw new Error("token过期");
+    const user = jwt.verify(token, SignKey) as User;
+    return user;
+  } catch (error) {
+    return {
+      id: 0,
+      // message: "token过期",
+    } as User;
   }
 };

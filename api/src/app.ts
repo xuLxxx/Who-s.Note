@@ -1,36 +1,24 @@
 import * as express from "express";
+import { createServer } from "http";
 import "dotenv/config";
-import { WebSocketExpress, Router } from "websocket-express";
 import * as bodyParser from "body-parser";
 import { AppDataSource } from "./data-source";
+import { expressjwt } from "express-jwt";
+import { Request, Response, NextFunction } from "express";
+import * as cors from "cors";
+import { initSocket } from "./utils/socket";
+
 import userRouter from "./router/userRouter";
-import talkRouter from "./router/talkRouter";
 import todoRouter from "./router/todoRouter";
 import fileRouter from "./router/fileRouter";
 import mdRouter from "./router/mdRouter";
 import settingRouter from "./router/settingRouter";
-import { expressjwt } from "express-jwt";
-import { Request, Response, NextFunction } from "express";
+import talkRouter from "./router/talkRouter";
 
-import { Server } from "socket.io";
-
-import * as cors from "cors";
-
-const app = new WebSocketExpress();
+const app = express();
 const SignKey = process.env.JWT_SECRET as string;
-// const server = http.createServer(app); // Add this
-const io = new Server({
-  cors: {
-    origin: `http://localhost:${process.env.PORT}`,
-    methods: ["GET", "POST"],
-  },
-});
-
-io.on("connection", (socket) => {
-  console.log(`User connected ${socket.id}`);
-
-  // We can write our socket event listeners in here...
-});
+const server = createServer(app); // Add this
+initSocket(server);
 
 AppDataSource.initialize().then(async () => {
   //一个网络应用程序，需要绑定一个端口
@@ -38,8 +26,8 @@ AppDataSource.initialize().then(async () => {
 
   app.use(bodyParser.json());
   app.use(cors());
-  app.use("/", userRouter, fileRouter, mdRouter, settingRouter);
-  app.use("/ws", talkRouter);
+  app.use("/", userRouter, fileRouter, mdRouter, settingRouter, talkRouter);
+  // app.use("/ws", talkRouter);
   app.use("/todo", todoRouter);
 
   app.use(
@@ -50,6 +38,7 @@ AppDataSource.initialize().then(async () => {
         "/setting/get",
         { url: /^\/uploads\/.*/ },
         { url: /^\/public\/.*/ },
+        { url: /^\/socket.io\/.*/ },
       ],
     })
   );
@@ -68,10 +57,10 @@ AppDataSource.initialize().then(async () => {
         code: 401,
       });
       return;
-    } 
+    }
     next();
   });
-  app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log("服务器启动成功", process.env.PORT);
   });
 });

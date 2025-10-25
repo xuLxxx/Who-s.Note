@@ -1,7 +1,5 @@
 import type { Event } from "@/store/model/index.type";
-// import { hashObject } from "@/utils/object";
 import server from "@/utils/request";
-// import store from "@/store";
 import { TodoItem } from "@/store/model/index.type";
 
 //获取事件

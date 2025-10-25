@@ -1,9 +1,17 @@
 import { AppDataSource } from "../data-source";
-import { User } from "../entity/User";
-import { Menu } from "../entity/Menu";
-import { File } from "../entity/File";
-import { Setting } from "../entity/Setting";
-import { Markdown } from "../entity/Markdown";
+import {
+  Todo,
+  TodoContainer,
+  TodoSorts,
+  Event,
+  File,
+  Setting,
+  Markdown,
+  User,
+  Menu,
+  Room,
+  Message,
+} from "../entity";
 
 import { UserService } from "../service/userService";
 import MenuService from "../service/menuService"; // export 与 export default 的区别
@@ -11,8 +19,7 @@ import { FileService } from "../service/fileService";
 import { MdService } from "../service/mdService";
 import { SettingService } from "../service/settingService";
 import TodoService from "../service/todoService";
-import { Todo, TodoContainer, TodoSorts } from "../entity/Todo";
-import { Event } from "../entity/Event";
+import { TalkService } from "../service/talkService";
 
 // 数据源
 export const userRepository = new UserService(
@@ -42,10 +49,7 @@ export const todoRepository = new TodoService(
   AppDataSource.getRepository(TodoSorts)
 );
 
-// export const todoRepository = new TodoService(
-//   AppDataSource.getRepository(Todo)
-// );
-
-// export const eventRepository = new EventService(
-//   AppDataSource.getRepository(Event)
-// );
+export const talkRepository = new TalkService(
+  AppDataSource.getRepository(Room),
+  AppDataSource.getRepository(Message)
+);

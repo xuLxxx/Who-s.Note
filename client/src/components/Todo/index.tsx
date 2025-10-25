@@ -238,8 +238,6 @@ export default function TodoCom(): JSX.Element {
         currentDrag,
         target.nextElementSibling
       ) as HTMLDivElement; // insertBefore(newNode,referenceNode) newNode 要插入的节点。 referenceNode 作为参照节点，即要插入的位置。
-    } else if (currentIndex === targetIndex) {
-      return;
     } else {
       dragRef.current?.insertBefore(
         currentDrag,

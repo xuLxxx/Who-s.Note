@@ -11,21 +11,22 @@
   height: calc(100% - 40px);
   padding: 10px;
 }
-.friend-card {
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid var(--card-border);
-  border-radius: 5px;
-  align-items: center;
-  height: 30px;
-  margin-bottom: 4px;
-}
 .friend-add-room {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 40px;
+  border: 0;
+}
+.friend-add-room .friend-add-room-button {
+  width: 100%;
+  height: 46px;
+  border: 0;
+  border-radius: 0;
+  background: transparent!important;
+  border-top: 1px solid var(--card-border);
+  font-size: 20px;
 }
 .frinend-chat-box {
   float: right;

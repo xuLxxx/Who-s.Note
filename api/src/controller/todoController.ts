@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Request } from "../express";
 import { todoRepository } from "../repository";
-import { verifyToken } from "../utils/auth";
+import { verifyTokenByReq } from "../utils/auth";
 import { User } from "../entity/User";
 import { Menu } from "../entity/Menu";
 import * as jwt from "jsonwebtoken";
@@ -28,7 +28,7 @@ export class TodoController {
   }
   static async updateEvents(req: Request, res: Response) {
     try {
-      const user = verifyToken(req);
+      const user = verifyTokenByReq(req);
       if (!user) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -43,7 +43,7 @@ export class TodoController {
   }
   static async deleteEvents(req: Request, res: Response) {
     try {
-      const user = verifyToken(req);
+      const user = verifyTokenByReq(req);
       if (!user) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -57,7 +57,7 @@ export class TodoController {
   }
   static async addEvents(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -71,7 +71,7 @@ export class TodoController {
   }
   static async getTodos(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -84,7 +84,7 @@ export class TodoController {
   }
   static async addTodos(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -98,7 +98,7 @@ export class TodoController {
   }
   static async updateTodos(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -112,7 +112,7 @@ export class TodoController {
   }
   static async deleteTodos(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -127,7 +127,7 @@ export class TodoController {
   }
   static async getTodoSorts(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;
@@ -140,7 +140,7 @@ export class TodoController {
   }
   static async updateTodoSorts(req: Request, res: Response) {
     try {
-      const { id } = verifyToken(req);
+      const { id } = verifyTokenByReq(req);
       if (!id) {
         res.status(200).send({ message: "token过期", code: 401 });
         return;

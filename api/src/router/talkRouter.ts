@@ -1,8 +1,15 @@
-import { Router } from "websocket-express";
+import { Router } from "express";
 import { TalkController } from "../controller/talkController";
 
-const talkRouter = new Router();
+const talkRouter = Router();
 
-talkRouter.ws("/test", TalkController.getTalk);
+talkRouter.get("/history", TalkController.getHistoryTalk);
+talkRouter.post("/createRoom", TalkController.createRoom);
+talkRouter.get("/getRoomList", TalkController.getRoomList);
+talkRouter.get("/:roomId/getRoomByFullId", TalkController.getRoomByFullId);
+talkRouter.get("/:roomId/getRoomMessage", TalkController.getRoomMessage);
+talkRouter.post("/:roomId/joinRoom", TalkController.joinRoom);
+talkRouter.post("/:roomId/sendMessage", TalkController.sendMessage);
+talkRouter.get("/:roomId/getRoomUserList", TalkController.getRoomUserList);
 
 export default talkRouter;
