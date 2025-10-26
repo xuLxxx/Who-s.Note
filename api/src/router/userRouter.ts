@@ -10,7 +10,7 @@ const userRouter = Router();
 userRouter.post("/login", UserController.login);
 userRouter.post("/register", UserController.register);
 userRouter.get("/user", UserController.getUserByToken);
-
+userRouter.put("/user", UserController.updateUserInfo);
 
 // 菜单路由
 userRouter.get("/menu", MenuController.getMenu);

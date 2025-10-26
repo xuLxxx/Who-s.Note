@@ -1,0 +1,47 @@
+.friend-chat-message-content-toolbox-body {
+  padding: 4px !important;
+}
+.friend-chat-message-content-container {
+  position: relative;
+  margin-left: 40px;
+}
+.friend-chat-message-content-container .friend-chat-message-content {
+  padding: 5px;
+  border-radius: 5px;
+  max-width: 100%;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.friend-chat-message-content-container .friend-chat-message-content:hover {
+  background-color: var(--hover-color);
+}
+.friend-chat-message-content-container .friend-chat-message-time-content {
+  font-size: 12px;
+  position: absolute;
+  right: 0;
+  line-height: 1;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #959598;
+}
+.friend-chat-avatar-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 20px;
+}
+.friend-chat-avatar-name .friend-chat-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #959598;
+}
+.friend-chat-avatar-name .friend-chat-avatar-name-text {
+  line-height: 1;
+  height: 20px;
+}
+.friend-chat-avatar-name .friend-chat-avatar-time-text {
+  font-size: 12px;
+  color: #959598;
+}

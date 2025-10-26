@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 import { verifyToken, verifyTokenByReq } from "./auth";
-import { s } from "@fullcalendar/resource/internal-common";
+import { AppDataSource } from "../data-source";
+import { User } from "../entity";
 
 // 存储所有连接的客户端
 let connectedUsers: { [key: string]: { socket: Socket; userInfo?: any } } = {};
@@ -21,7 +22,7 @@ export const initSocket = (server: any) => {
   });
 
   // 连接事件处理
-  io.on("connection", (socket) => {
+  io.on("connection", async (socket) => {
     console.log(`User connected: ${socket.id} ${socket.handshake.auth.token}`);
     const token = verifyToken(socket.handshake.auth.token);
     if (!token.id) {
@@ -32,14 +33,21 @@ export const initSocket = (server: any) => {
       socket.disconnect(true);
       return;
     } else {
+      const userInfo = await AppDataSource.getRepository(User).findOne({
+        where: { id: token.id },
+      });
+      if (!userInfo) {
+        socket.emit("guest_lobby", {
+          success: false,
+          message: "用户不存在",
+        });
+        socket.disconnect(true);
+        return;
+      }
+      delete userInfo.password;
       connectedUsers[socket.id] = {
         socket,
-        userInfo: {
-          userId: token.id,
-          username: token.username,
-          role: token.role,
-          avatar: token.avatar,
-        },
+        userInfo,
       };
       socket.emit("guest_lobby", {
         success: true,

@@ -132,6 +132,8 @@ export class TalkService {
               where: { id: item.id },
               relations: ["user"],
             });
+            // 移除密码字段
+            delete msg.user.password;
             return msg;
           })
         );

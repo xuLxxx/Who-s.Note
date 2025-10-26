@@ -2,6 +2,7 @@ import { Code, Repository } from "typeorm";
 import { User } from "../entity/User";
 import * as jwt from "jsonwebtoken";
 import "dotenv/config";
+import { verifyToken, verifyTokenByReq } from "../utils/auth";
 
 const SignKey = process.env.JWT_SECRET as string;
 
@@ -55,13 +56,20 @@ export class UserService {
   }
   async getUserByToken(token: string) {
     try {
-      const user = jwt.verify(token, SignKey);
+      const { id } = verifyToken(token);
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        return { code: 201, message: "用户不存在" };
+      }
 
       return {
         code: 200,
         message: "获取用户信息成功",
         data: {
-          user,
+          user: {
+            ...user,
+            password: undefined,
+          },
         },
       };
     } catch (error) {
@@ -69,5 +77,25 @@ export class UserService {
     } finally {
       console.log("Get User");
     }
+  }
+  async updateUserInfo(user: User) {
+    const { username, avatar } = user;
+    const thisOne = await this.userRepository.findOne({
+      where: { id: user.id },
+    });
+    if (!thisOne) {
+      return { code: 201, message: "用户不存在" };
+    }
+    thisOne.avatar = avatar;
+    thisOne.username = username;
+    await this.userRepository.save(thisOne);
+    return {
+      message: "更新成功",
+      code: 200,
+      data: {
+        username,
+        avatar,
+      },
+    };
   }
 }

@@ -47,6 +47,9 @@
   cursor: pointer;
 }
 .create-room-card .create-room-search-result-room-card:hover {
+  background-color: #cdcccc;
+}
+.create-room-card .create-room-search-result-room-card .create-room-search-result-room-card-avatar {
   background-color: #959598;
 }
 .create-room-card .create-room-search-result-room-card-name {

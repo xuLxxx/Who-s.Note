@@ -3,6 +3,7 @@ import { userRepository } from "../repository";
 import { User } from "../entity/User";
 import * as jwt from "jsonwebtoken";
 import md5 from "../utils/crypto";
+import { verifyTokenByReq } from "../utils/auth";
 
 export class UserController {
   static async register(req: Request, res: Response) {
@@ -47,6 +48,21 @@ export class UserController {
       return;
     }
     const result = await userRepository.getUserByToken(token);
+    res.status(200).send(result);
+  }
+
+  static async updateUserInfo(req: Request, res: Response) {
+    const { username, avatar } = req.body;
+    const { id } = verifyTokenByReq(req);
+    if (!id) {
+      res.status(200).send({ message: "未登录！", code: 401 });
+      return;
+    }
+    const data = new User();
+    data.username = username;
+    data.avatar = avatar;
+    data.id = id;
+    const result = await userRepository.updateUserInfo(data);
     res.status(200).send(result);
   }
 }

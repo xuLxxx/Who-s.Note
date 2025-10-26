@@ -11,6 +11,7 @@ const userState: UserInfo = {
   username: "",
   id: null,
   role: "",
+  avatar: "",
   token: getToken(),
   iat: 0,
   exp: 0,
@@ -30,6 +31,7 @@ export default {
         username: "",
         id: null,
         role: "",
+        avatar: "",
         token: removeToken(),
       };
     },
@@ -49,21 +51,13 @@ export default {
             id: data.id,
             role: data.role,
             token: data.token,
+            avatar: data.avatar,
           },
         });
       }
       return res;
     },
     async logout() {
-      // const res = await api.logout();
-      // if (res.code === 200) {
-      //   message.success("退出成功");
-      //   removeToken();
-      //   dispatch({
-      //     type: "user/removeUserInfo",
-      //   });
-      // }
-      // return res;
       try {
         dispatch({
           type: "user/removeUserInfo",

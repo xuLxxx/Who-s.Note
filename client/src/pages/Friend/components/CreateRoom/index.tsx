@@ -198,8 +198,9 @@ export const CreateRoom = React.forwardRef(
                           onClick={() => handleJoinRoom(searchedRoom[0].id)}>
                           <div>
                             <Avatar
-                              src={searchedRoom[0].avatar}
-                              icon={
+                              className="create-room-search-result-room-card-avatar"
+                              shape="square"
+                              src={
                                 searchedRoom[0].avatar || <UserOutlined />
                               }></Avatar>
                           </div>

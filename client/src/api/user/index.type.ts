@@ -1,4 +1,5 @@
 export type UserInfo = {
+  avatar: any;
   username: string;
   isLogin?: boolean;
   role?: string;

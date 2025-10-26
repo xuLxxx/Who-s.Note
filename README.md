@@ -67,6 +67,10 @@ JWT_SECRET=....
 ![alt text](/assets/screenshots/0f41e6f4a15a39ee785f40bf39bcc47.jpg)
 ![alt text](/assets/screenshots/b533460d4e1157951480239424d5109.jpg)
 ![alt text](/assets/screenshots/c238d62da2b63bd774fc49ad9ec72a9.jpg)
+![alt text](/assets/screenshots/image-6.png)
+![alt text](/assets/screenshots/image-7.png)
+![alt text](/assets/screenshots/image-8.png)
+![alt text](/assets/screenshots/image-9.png)
 
 # 技术选型 Tech Stack
 
@@ -82,7 +86,7 @@ JWT_SECRET=....
 
 - [ ] 通过实现限制用户功能 完善 RBAC 情景
 - [ ] 通过修改用户信息 完善 CRUD 情景
-- [ ] 完善基于 Websocket 的实时聊天功能、评论和实时聊天功能
+- [x] 完善基于 Websocket 的实时聊天功能、评论和实时聊天功能
 - [ ] 优化 markdown 内的图片上传
 - [ ] Docker 部署到服务器完成云存储等功能
 - [ ] React-Native Markdown 无法实现生成目录。

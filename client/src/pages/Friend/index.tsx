@@ -64,32 +64,35 @@ export default function Friend(): JSX.Element {
 
   return (
     <>
-      <div className="friend-left">
-        <div className="friend-list">
-          {roomList.map((room) => (
-            <RoomCard
-              room={room}
-              currentRoom={currentRoom}
-              setRoomId={setRoomId}></RoomCard>
-          ))}
+      <div className="friend-container">
+        <div className="friend-left">
+          <div className="friend-list">
+            {roomList.map((room) => (
+              <RoomCard
+                room={room}
+                currentRoom={currentRoom}
+                setRoomId={setRoomId}></RoomCard>
+            ))}
+          </div>
+          <div className="friend-add-room">
+            <Button
+              onClick={handleCreateRoom}
+              icon={<PlusOutlined />}
+              className="friend-add-room-button"></Button>
+          </div>
         </div>
-        <div className="friend-add-room">
-          <Button
-            onClick={handleCreateRoom}
-            icon={<PlusOutlined />}
-            className="friend-add-room-button"></Button>
+        <div className="frinend-chat-box">
+          {/* 可以将socket对象传递给ChatRoom组件 */}
+          <ChatRoom
+            socket={socket}
+            isConnected={isConnected}
+            room={currentRoom}
+            messages={msgList}
+            setMessages={setMsgList}
+          />
         </div>
       </div>
-      <div className="frinend-chat-box">
-        {/* 可以将socket对象传递给ChatRoom组件 */}
-        <ChatRoom
-          socket={socket}
-          isConnected={isConnected}
-          room={currentRoom}
-          messages={msgList}
-          setMessages={setMsgList}
-        />
-      </div>
+
       <CreateRoom ref={createRoomRef} refreshRoomList={refreshRoomList} />
     </>
   );

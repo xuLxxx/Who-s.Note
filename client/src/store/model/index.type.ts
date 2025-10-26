@@ -9,6 +9,7 @@ export type UserInfo = {
   exp?: number;
   iat?: number;
   id: number | null;
+  avatar?: string;
 };
 
 export type Setting = {

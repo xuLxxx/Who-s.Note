@@ -19,3 +19,18 @@ export const getUserInfo = async () => {
   }
   return server.requestT<{ data: { user: UserInfo } }>(config);
 };
+
+//修改用户信息
+export const updateUserInfo = async (data: {
+  username: string;
+  avatar: string;
+}) => {
+  const config = {
+    url: "/user",
+    method: "put",
+    data,
+  };
+  return server.requestT<{ data: { username: string; avatar: string } }>(
+    config
+  );
+};
